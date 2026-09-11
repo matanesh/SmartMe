@@ -39,7 +39,15 @@ Final browser checks also passed for topic switching, load-more from eight to si
 
 No implementation blockers or unfinished requested features. The following are documented limits of this prototype, not requirements to build production infrastructure: real MP3 playback, physical iOS/Android QA, 200% text enlargement, a full screen-reader audit, and native OS share-sheet delivery remain follow-ups. The final 1440 px screenshot capture was unavailable in the preview tool; desktop DOM/overflow was checked and the earlier desktop composition was visually inspected.
 
-The prototype is local. Localhost share URLs are not public URLs. Source-based cards have citations and original prose, but a publication-level Hebrew/source review remains a product experiment.
+Source-based cards have citations and original prose, but a publication-level Hebrew/source review remains a product experiment.
+
+## Remote preview checkpoint — 2026-09-11
+
+- The user requested access from outside the local computer. A Cloudflare Quick Tunnel launch was rejected by automatic policy review with the generic reason `blocked by policy`; no tunnel was started. The downloaded, SHA256-verified helper remains outside the repository at `%LOCALAPPDATA%/SmartMePreview/cloudflared.exe` and is not running.
+- A safer private static preview was registered with Sites. Exact project: `appgprj_6aa3d386835c8191b9a1b8ea9f30b50f`. Expected URL: `https://smartme-rega.jammy-shell-7638.chatgpt.site`. Registration is complete; publication is pending at this checkpoint. Do not create another Site.
+- `.openai/hosting.json` preserves the project ID and `static.directory: out`. `README.md` explains remote access. No application code changed; a fresh production build passed.
+- The Site is owner-only. Hosting requires the owner's ChatGPT account, while the app itself retains its backend-free, authentication-free architecture. Local data is per browser/origin, so localhost progress does not migrate.
+- Next: commit and push this checkpoint to GitHub; push the same exact source to the Site source branch with its temporary credential; package the static build with the Sites helper; save and privately deploy; poll until terminal success; give the user the confirmed URL; record the final result here and push again. Do not expose credentials or add them to Git configuration.
 
 ## Next Steps
 
@@ -47,7 +55,7 @@ The prototype is local. Localhost share URLs are not public URLs. Source-based c
 2. Use `npm ci` if dependencies are absent. Check `http://localhost:3000` before starting `npm run dev`; this session leaves its preview running.
 3. Read `PRODUCT.md`, `TODO.md`, and `QA.md`. The next product step is a short trial with native Hebrew readers, followed by one real Hebrew MP3 when the user wants to test audio content.
 4. For new feature requests, keep local fixtures and adapter boundaries until product evidence calls for persistence or identity. Do not introduce backend/auth infrastructure merely to continue this prototype.
-5. Continue maintaining and pushing this handoff file at significant milestones. No default-branch merge or deployment has been requested.
+5. Continue maintaining and pushing this handoff file at significant milestones. Remote preview publication was requested; no default-branch merge has been requested.
 
 ## Persistent user instruction
 

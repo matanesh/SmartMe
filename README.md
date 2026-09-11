@@ -22,6 +22,12 @@ npm start
 
 The `out/` directory contains the complete static app. `npm start` serves these files on port 3000. Nothing is deployed by these commands.
 
+## Remote preview
+
+The prototype is registered with Sites at [smartme-rega.jammy-shell-7638.chatgpt.site](https://smartme-rega.jammy-shell-7638.chatgpt.site). See `PROGRESS.md` for the latest publication status. Access is private to the owner's ChatGPT account; this hosting access gate does not add authentication to the app itself. Once published, the preview does not depend on the development computer remaining online.
+
+`.openai/hosting.json` identifies the existing Site and the static `out/` output. Reuse this registration for updates. Build and publish the static files with Sites; no backend or runtime secrets are needed. The hosted origin has its own localStorage, so saved ideas from localhost do not transfer automatically.
+
 ## What works
 
 - 40 original Hebrew mock cards, five in each of eight topics, covering ten formats.
