@@ -68,6 +68,17 @@ npm run lint
 npm run build
 ```
 
+The browser interaction gate expects the static app to be running on port 3000. Install Chromium once, then run it in a second terminal:
+
+```sh
+npx playwright install chromium
+npm start
+# In another terminal:
+npm run test:e2e
+```
+
+Set `E2E_BASE_URL=https://example.vercel.app` to verify an HTTPS deployment instead of localhost. The E2E gate uses a 390 px viewport and covers Save feedback/persistence, topic filtering, load-more, Sessions navigation, page errors, and horizontal overflow.
+
 `npm run format` formats authored code and documentation. Tests cover content integrity, session references, corrupt storage, blocked storage, daily deduplication, date boundaries, and the bounded history. Browser verification is recorded in `QA.md`.
 
 ## Product and implementation notes

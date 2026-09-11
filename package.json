@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "tsx --test tests/*.test.ts",
+    "test:e2e": "node --test tests/interaction.e2e.mjs",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -25,6 +26,7 @@
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.1",
+    "playwright": "^1.63.0",
     "prettier": "^3.9.6",
     "serve": "^14.2.6",
     "tailwindcss": "^4.2.1",

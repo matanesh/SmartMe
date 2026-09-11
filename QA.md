@@ -48,3 +48,11 @@ Temporary viewport overrides were cleared and the preview was returned to Discov
 - External sources have linked attribution; publication-level factual and Hebrew editorial review remains a documented next experiment.
 
 This is a functional product prototype, not a production accessibility, security, or scientific-content certification.
+
+## Linux production interaction gate — 2026-09-11
+
+- Added `npm run test:e2e`, a Playwright/Chromium smoke test against the already-running static production export.
+- At a 390×844 viewport it physically clicks Save, verifies visible feedback and persisted state after reload, switches to the Money filter, expands the feed from 8 to 16 cards, opens Sessions, checks for page errors, and confirms `scrollWidth === clientWidth === 390`.
+- The first automated run and the post-build run both passed. The post-build run completed 1 explicitly numbered E2E test with no page errors; the existing 11 Node tests, strict typecheck, ESLint, Prettier check, static build, and `git diff --check` also passed.
+- Temporary storage diagnostics showed a live `useSyncExternalStore` subscriber and were removed before the final build. No application logic change was needed: deterministic Playwright clicks update both the rendered controls and local storage. Earlier accessibility-driver click results were inconsistent and are not treated as application evidence.
+- The local production server remains `serve out --listen 3000`; HTTP root and every referenced client asset returned 200. User-environment verification should be repeated on the authorized HTTPS Vercel Preview, because the raw-IP HTTP preview is not a release-quality handoff.

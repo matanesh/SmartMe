@@ -1,6 +1,6 @@
 # Progress and session handoff
 
-Updated: 2026-09-11. Branch: `codex/hebrew-knowledge-prototype`.
+Updated: 2026-09-11 20:31 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
 
 ## Current Status
 
@@ -56,6 +56,15 @@ Source-based cards have citations and original prose, but a publication-level He
 3. Read `PRODUCT.md`, `TODO.md`, and `QA.md`. The next product step is a short trial with native Hebrew readers, followed by one real Hebrew MP3 when the user wants to test audio content.
 4. For new feature requests, keep local fixtures and adapter boundaries until product evidence calls for persistence or identity. Do not introduce backend/auth infrastructure merely to continue this prototype.
 5. Continue maintaining and pushing this handoff file at significant milestones. Remote preview publication was requested; no default-branch merge has been requested.
+
+## Weekend mission cycle 1 — interaction reliability
+
+- Verified live state rather than the older handoff claim: port 3000 is already serving the static `out/` build via `serve`, not `next dev`; root and all referenced CSS/JS assets returned HTTP 200.
+- Investigated the reported non-working controls. Client hydration and normal `useState` navigation worked. Temporary progress-store diagnostics confirmed one active subscriber and one notification per write, then were removed. A deterministic Playwright browser at 390 px confirmed Save UI feedback, reload persistence, topic filtering, load-more, Sessions navigation, zero page errors, and zero horizontal overflow.
+- Added `tests/interaction.e2e.mjs`, `npm run test:e2e`, and a direct Playwright dev dependency so this critical path is repeatable instead of relying on a manual browser claim.
+- Verified: 11 Node tests pass; strict typecheck passes; ESLint passes; Prettier check passes; Next.js 16.3.4 static production build passes; 1 Playwright E2E test passes; `git diff --check` passes.
+- No application behavior was changed because the deterministic browser test did not reproduce an application fault. Earlier accessibility-driver clicks were inconsistent and are not accepted as product evidence. The remaining user-environment check belongs on the authorized HTTPS Vercel Preview.
+- Exact next action: create a new or safely isolated Vercel Preview from this verified branch, record its URL/project identity without secrets, then run the same E2E test and HTTP checks against that URL before any Production promotion.
 
 ## Persistent user instruction
 
