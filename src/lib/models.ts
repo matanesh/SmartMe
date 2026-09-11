@@ -1,6 +1,25 @@
-export const TOPICS = ["פסיכולוגיה", "כסף", "קריירה", "AI וטכנולוגיה", "יחסים", "מדע", "היסטוריה", "הרגלים"] as const;
-export type Topic = typeof TOPICS[number];
-export type KnowledgeType = "insight" | "fact" | "tip" | "quote" | "story" | "did-you-know" | "reveal" | "quiz" | "book" | "research";
+export const TOPICS = [
+  "פסיכולוגיה",
+  "כסף",
+  "קריירה",
+  "AI וטכנולוגיה",
+  "יחסים",
+  "מדע",
+  "היסטוריה",
+  "הרגלים",
+] as const;
+export type Topic = (typeof TOPICS)[number];
+export type KnowledgeType =
+  | "insight"
+  | "fact"
+  | "tip"
+  | "quote"
+  | "story"
+  | "did-you-know"
+  | "reveal"
+  | "quiz"
+  | "book"
+  | "research";
 export interface KnowledgeItem {
   id: string;
   type: KnowledgeType;
@@ -21,11 +40,20 @@ export interface KnowledgeItem {
   accent?: "peach" | "sage" | "lavender" | "ink" | "cream";
 }
 export interface AudioEpisode {
-  id: string; title: string; description: string; topic: Topic;
-  durationSeconds: number; audioUrl?: string; relatedItems: string[];
+  id: string;
+  title: string;
+  description: string;
+  topic: Topic;
+  durationSeconds: number;
+  audioUrl?: string;
+  relatedItems: string[];
   accent: "peach" | "sage" | "lavender";
 }
 export interface LearningSession {
-  id: string; title: string; description: string; estimatedMinutes: number;
-  itemIds: string[]; accent: "peach" | "sage" | "lavender";
+  id: string;
+  title: string;
+  description: string;
+  estimatedMinutes: number;
+  itemIds: string[];
+  accent: "peach" | "sage" | "lavender";
 }

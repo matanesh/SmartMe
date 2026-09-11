@@ -10,10 +10,21 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "רגע · משהו קטן לדעת",
-  description: "רעיונות גדולים, ברגעים קטנים. פיד של ידע, סקרנות והשראה בעברית.",
+  description:
+    "רעיונות גדולים, ברגעים קטנים. פיד של ידע, סקרנות והשראה בעברית.",
   icons: { icon: "/favicon.svg" },
 };
-export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#f8f7f4" };
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="he" dir="rtl"><body>{children}</body></html>;
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#f8f7f4",
+};
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="he" dir="rtl">
+      <body>{children}</body>
+    </html>
+  );
 }

@@ -1,31 +1,352 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowLeft, AudioLines, Bookmark, Compass, Headphones, Hourglass, Sparkles, Sprout } from "lucide-react";
-import { knowledgeItems } from "@/data/knowledge";
+import { Fragment, useEffect, useRef, useState } from "react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Bookmark,
+  Check,
+  Sparkles,
+  Sprout,
+  X,
+} from "lucide-react";
+import { contentRepository } from "@/lib/content-repository";
 import { TOPICS, type KnowledgeItem, type Topic } from "@/lib/models";
+import { useProgress } from "@/hooks/use-progress";
+import { useRoute } from "@/hooks/use-route";
+import { useAudioPlayer } from "@/hooks/use-audio-player";
 import { KnowledgeCard } from "./knowledge-card";
+import { Brand, Navigation } from "./navigation";
+import { DiscoverySidebar, SessionPromo } from "./discovery-sidebar";
+import { SessionView } from "./session-view";
+import { AudioView } from "./audio-view";
+import { MiniPlayer } from "./mini-player";
+
+const headings: Record<
+  string,
+  { title: string; subtitle: string; eyebrow: string }
+> = {
+  discover: {
+    title: "רגע, יש פה משהו מעניין.",
+    subtitle: "רעיונות גדולים. במנות קטנות.",
+    eyebrow: "לפנות מקום לסקרנות",
+  },
+  saved: {
+    title: "שווה לשמור.",
+    subtitle: "הרעיונות שעצרו אותך לרגע, במקום אחד.",
+    eyebrow: "אוסף קטן, לגמרי שלך",
+  },
+  sessions: {
+    title: "יש לי 5 דקות.",
+    subtitle: "נושא אחד. חמישה רעיונות. משהו לקחת להמשך.",
+    eyebrow: "קצת זמן לעצמך",
+  },
+  audio: {
+    title: "רגע להקשיב.",
+    subtitle: "רעיונות טובים לא חייבים לקרוא.",
+    eyebrow: "סקרנות, גם כשהעיניים נחות",
+  },
+  idea: {
+    title: "רעיון ששווה רגע.",
+    subtitle: "לפעמים רעיון אחד פותח כיוון חדש.",
+    eyebrow: "משהו קטן לדעת",
+  },
+};
 
 export function AppShell() {
+  const { route, navigate: go } = useRoute();
+  const [routeView, detailId] = route.split("/");
+  const view = headings[routeView] ? routeView : "discover";
+  const state = useProgress();
+  const player = useAudioPlayer();
   const [topic, setTopic] = useState<Topic | "all">("all");
-  const [saved, setSaved] = useState<string[]>([]);
-  const [liked, setLiked] = useState<string[]>([]);
-  const [read, setRead] = useState<string[]>([]);
-  const [view, setView] = useState("discover");
-  const toggle = (id: string, list: string[], setter: (next: string[]) => void) => setter(list.includes(id) ? list.filter(i => i !== id) : [...list, id]);
-  const items = knowledgeItems.filter(item => (topic === "all" || item.topic === topic) && (view !== "saved" || saved.includes(item.id)));
-  const share = async (item: KnowledgeItem) => { if (navigator.share) await navigator.share({ title: item.title, text: item.content }).catch(() => {}); else await navigator.clipboard?.writeText(`${item.title}\n\n${item.content}`); };
-  const nav = [{ id: "discover", label: "לגלות", icon: Compass }, { id: "sessions", label: "יש לי 5 דקות", icon: Hourglass }, { id: "audio", label: "להקשיב", icon: Headphones }, { id: "saved", label: "השמורים שלי", icon: Bookmark }];
-  return <div className="app-frame">
-    <aside className="navigation-rail"><a className="brand" href="/" aria-label="רגע — לדף הבית"><span className="brand-symbol">✳</span>רגע<span className="brand-dot">.</span></a><p className="brand-caption">משהו קטן לדעת.</p><nav aria-label="ניווט ראשי">{nav.map(({id,label,icon:Icon}) => <button className={`nav-item ${view === id ? "active" : ""}`} key={id} onClick={() => setView(id)}><Icon size={21}/><span>{label}</span>{id === "saved" && saved.length > 0 && <span className="nav-count">{saved.length}</span>}</button>)}</nav><div className="rail-note"><span className="little-spark">✳</span><p>עוד קצת סקרנות.<br/>קצת פחות אוטומט.</p></div><div className="rail-footer"><span>נפגשים ברגע הפנוי הבא</span><span>גרסת ניסיון · עם סקרנות, בעברית</span></div></aside>
-    <div className="workspace"><header className="mobile-header"><a className="brand" href="/"><span className="brand-symbol">✳</span>רגע<span className="brand-dot">.</span></a><span className="daily-pill"><Sprout size={16}/>{read.length ? `${read.length} רעיונות היום` : "רגע טוב להתחיל"}</span></header>
-      <div className="page-topline"><span>קצת זמן פנוי, הרבה מה לגלות</span><span className="daily-pill"><Sprout size={16}/>{read.length ? `למדת היום ${read.length} רעיונות` : "כל רעיון הוא התחלה"}</span></div>
-      <div className="workspace-columns"><main id="main-content"><div className="page-heading"><div><div className="eyebrow">לפנות מקום לסקרנות</div><h1>{view === "saved" ? "שווה לשמור." : "רגע, יש פה משהו מעניין."}</h1><p>רעיונות גדולים. במנות קטנות.</p></div><span className="heading-spark" aria-hidden="true">✳</span></div>
-        <div className="topic-tabs" role="group" aria-label="בחירת נושא"><button className={topic === "all" ? "selected" : ""} aria-pressed={topic === "all"} onClick={() => setTopic("all")}><Sparkles size={15}/>בשבילך</button>{TOPICS.map(t => <button key={t} className={topic === t ? "selected" : ""} aria-pressed={topic === t} onClick={() => setTopic(t)}>{t}</button>)}</div>
-        <div className="feed-heading"><h2>{view === "saved" ? "הרעיונות שלך" : topic === "all" ? "הגילויים של היום" : `רגע של ${topic}`}</h2><span>{items.length} רעיונות לסקרנות שלך</span></div>
-        <div className="feed">{items.map((item, index) => <KnowledgeCard key={item.id} item={item} featured={index === 0 && topic === "all" && view !== "saved"} saved={saved.includes(item.id)} liked={liked.includes(item.id)} read={read.includes(item.id)} onSave={id => toggle(id,saved,setSaved)} onLike={id => toggle(id,liked,setLiked)} onShare={share} onRead={id => setRead(prev => prev.includes(id) ? prev : [...prev,id])}/>)}</div>
-        {items.length === 0 && <div className="empty-state"><Bookmark size={30}/><h2>מקום לרעיונות שיישארו איתך.</h2><p>לחיצה על סימניית השמירה בכרטיס, והרעיון יחכה לך כאן.</p><button className="primary-button" onClick={() => { setView("discover"); setTopic("all"); }}>לגלות רעיון <ArrowLeft size={17}/></button></div>}
-      </main><aside className="discovery-sidebar"><section className="session-promo"><div className="side-eyebrow"><Hourglass size={16}/>יש לך רגע?</div><div className="session-number" aria-hidden="true">5<span>דקות של גילוי</span></div><h2>5 דברים שהמוח שלך עושה בלי שתשים לב</h2><p>מסע קצר בין קיצורי הדרך שבראש שלנו.</p><button className="dark-button" onClick={() => setView("sessions")}>בואו נתחיל <ArrowLeft size={17}/></button><div className="promo-foot"><span>5 רעיונות</span><span>פחות מגלילה אחת ארוכה</span></div></section><section className="sidebar-audio"><div className="section-title"><h2>לתת לאוזניים לגלות</h2><Headphones size={18}/></div><div className="audio-preview"><div className="audio-art accent-sage"><AudioLines size={31}/></div><div><h3>למה אנחנו דוחים דברים?</h3><p>7 דקות · פסיכולוגיה</p></div></div><button className="text-button" onClick={() => setView("audio")}>לכל רגעי ההקשבה <ArrowLeft size={16}/></button></section><section className="daily-note"><Sprout size={20}/><div><h3>לא צריך לדעת הכול.</h3><p>מספיק לגלות משהו אחד<br/>שלא ידעת לפני רגע.</p></div></section><p className="sidebar-signoff">ידע קטן. עולם קצת יותר גדול.</p></aside></div>
-    </div><nav className="bottom-nav" aria-label="ניווט בנייד">{nav.map(({id,label,icon:Icon}) => <button key={id} className={view === id ? "active" : ""} onClick={() => setView(id)}><Icon size={22}/><span>{label}</span></button>)}</nav>
-  </div>;
+  const [visibleCount, setVisibleCount] = useState(8);
+  const [toast, setToast] = useState("");
+  const [shareFallback, setShareFallback] = useState("");
+  const toastTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
+  useEffect(() => () => clearTimeout(toastTimeout.current), []);
+  const heading = headings[view];
+  const navigate = (next: string) => {
+    setTopic("all");
+    setVisibleCount(8);
+    go(next);
+  };
+  const notify = (text: string) => {
+    setToast(text);
+    clearTimeout(toastTimeout.current);
+    toastTimeout.current = setTimeout(() => setToast(""), 2800);
+  };
+  const share = async (item: KnowledgeItem) => {
+    const url =
+      window.location.origin + window.location.pathname + "#idea/" + item.id;
+    const title = item.title.replace(/\n/g, " ");
+    const text = [title, item.content, item.source, item.sourceUrl, url]
+      .filter(Boolean)
+      .join("\n\n");
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, text: item.content, url });
+        return;
+      } catch (error) {
+        if (error instanceof Error && error.name === "AbortError") return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(text);
+      notify("הרעיון והקישור הועתקו. אפשר לשתף.");
+    } catch {
+      setShareFallback(text);
+    }
+  };
+  const card = (item: KnowledgeItem, featured = false) => (
+    <KnowledgeCard
+      key={item.id}
+      item={item}
+      featured={featured}
+      saved={state.progress.savedIds.includes(item.id)}
+      liked={state.progress.likedIds.includes(item.id)}
+      read={state.todayReads.includes(item.id)}
+      onSave={(id) => {
+        const wasSaved = state.progress.savedIds.includes(id);
+        state.toggleSaved(id);
+        notify(wasSaved ? "הרעיון הוסר מהשמורים" : "נשמר לך לרגע אחר");
+      }}
+      onLike={state.toggleLiked}
+      onShare={share}
+      onRead={(id) => {
+        state.markRead(id);
+        notify("עוד רעיון לקחת איתך היום");
+      }}
+    />
+  );
+  const items = contentRepository
+    .getItems(topic === "all" ? undefined : topic)
+    .filter(
+      (item) => view !== "saved" || state.progress.savedIds.includes(item.id),
+    );
+  const detailItem =
+    view === "idea" ? contentRepository.getItem(detailId) : undefined;
+  const progressLabel =
+    state.todayReads.length === 1
+      ? "למדת היום רעיון אחד"
+      : state.todayReads.length
+        ? "למדת היום " + state.todayReads.length + " רעיונות"
+        : "כל רעיון הוא התחלה";
+
+  return (
+    <div className={"app-frame " + (player.episode ? "has-player" : "")}>
+      <a
+        className="skip-link"
+        href="#main-content"
+        onClick={(event) => {
+          event.preventDefault();
+          document.getElementById("main-content")?.focus();
+        }}
+      >
+        דילוג לתוכן
+      </a>
+      <Navigation
+        view={view}
+        savedCount={state.progress.savedIds.length}
+        navigate={navigate}
+      />
+      <div className="workspace">
+        <header className="mobile-header">
+          <Brand />
+          <span className="daily-pill">
+            <Sprout size={16} />
+            {state.todayReads.length === 1
+              ? "רעיון אחד היום"
+              : state.todayReads.length
+                ? state.todayReads.length + " רעיונות היום"
+                : "רגע טוב להתחיל"}
+          </span>
+        </header>
+        <div className="page-topline">
+          <span>קצת זמן פנוי, הרבה מה לגלות</span>
+          <span className="daily-pill">
+            <Sprout size={16} />
+            {progressLabel}
+          </span>
+        </div>
+        <div className="workspace-columns">
+          <main id="main-content" tabIndex={-1}>
+            <div className="page-heading">
+              <div>
+                <div className="eyebrow">{heading.eyebrow}</div>
+                <h1>{heading.title}</h1>
+                <p>{heading.subtitle}</p>
+              </div>
+              <span className="heading-spark" aria-hidden="true">
+                ✳
+              </span>
+            </div>
+            {!state.storageAvailable && (
+              <p className="storage-notice" role="status">
+                השמירה במכשיר אינה זמינה. הרעיונות יישמרו רק עד סגירת העמוד.
+              </p>
+            )}
+            {(view === "discover" || view === "saved") && (
+              <>
+                <div
+                  className="topic-tabs"
+                  role="group"
+                  aria-label="בחירת נושא"
+                >
+                  <button
+                    className={topic === "all" ? "selected" : ""}
+                    aria-pressed={topic === "all"}
+                    onClick={() => {
+                      setTopic("all");
+                      setVisibleCount(8);
+                    }}
+                  >
+                    <Sparkles size={15} />
+                    {view === "saved" ? "כל השמורים" : "בשבילך"}
+                  </button>
+                  {TOPICS.map((t) => (
+                    <button
+                      key={t}
+                      className={topic === t ? "selected" : ""}
+                      aria-pressed={topic === t}
+                      onClick={() => {
+                        setTopic(t);
+                        setVisibleCount(8);
+                      }}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+                <div className="feed-heading">
+                  <h2>
+                    {view === "saved"
+                      ? "הרעיונות שלך"
+                      : topic === "all"
+                        ? "הגילויים של היום"
+                        : "רגע של " + topic}
+                  </h2>
+                  <span>{items.length} רעיונות לסקרנות שלך</span>
+                </div>
+                <div className="feed">
+                  {items.slice(0, visibleCount).map((item, index) => (
+                    <Fragment key={item.id}>
+                      {card(
+                        item,
+                        item.id === "brain-shortcuts" &&
+                          view === "discover" &&
+                          topic === "all",
+                      )}
+                      {index === 1 &&
+                        view === "discover" &&
+                        topic === "all" && (
+                          <div className="mobile-session-promo">
+                            <SessionPromo navigate={navigate} compact />
+                          </div>
+                        )}
+                    </Fragment>
+                  ))}
+                </div>
+                {items.length > visibleCount && (
+                  <button
+                    className="more-button"
+                    onClick={() => setVisibleCount((count) => count + 8)}
+                  >
+                    יש עוד מה לגלות <ArrowLeft size={17} />
+                    <span>{items.length - visibleCount} רעיונות נוספים</span>
+                  </button>
+                )}
+                {items.length > 0 && items.length <= visibleCount && (
+                  <div className="feed-end">
+                    <Sprout size={23} />
+                    <p>קצת יותר ידע ממה שהיה לפני רגע.</p>
+                    <span>זה גם רגע טוב לחזור ליום שלך.</span>
+                  </div>
+                )}
+                {items.length === 0 && (
+                  <div className="empty-state">
+                    <Bookmark size={30} />
+                    <h2>
+                      {topic === "all"
+                        ? "מקום לרעיונות שיישארו איתך."
+                        : "עוד אין כאן רעיונות בנושא הזה."}
+                    </h2>
+                    <p>לחיצה על סימניית השמירה בכרטיס, והרעיון יחכה לך כאן.</p>
+                    <button
+                      className="primary-button"
+                      onClick={() => navigate("discover")}
+                    >
+                      לגלות רעיון <ArrowLeft size={17} />
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+            {view === "sessions" && (
+              <SessionView
+                id={detailId}
+                state={state}
+                navigate={navigate}
+                onShare={share}
+              />
+            )}
+            {view === "audio" && (
+              <AudioView player={player} navigate={navigate} />
+            )}
+            {view === "idea" && (
+              <div className="idea-detail">
+                <button
+                  className="back-button"
+                  onClick={() => navigate("discover")}
+                >
+                  <ArrowRight size={17} />
+                  חזרה לגילויים
+                </button>
+                {detailItem ? (
+                  card(detailItem)
+                ) : (
+                  <div className="empty-state">
+                    <h2>הרעיון הזה לא נמצא.</h2>
+                    <p>אולי הקישור השתנה. בפיד מחכים עוד רעיונות.</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </main>
+          <DiscoverySidebar navigate={navigate} />
+        </div>
+      </div>
+      <MiniPlayer player={player} />
+      {toast && (
+        <div className="toast" role="status">
+          <Check size={17} />
+          {toast}
+        </div>
+      )}
+      {shareFallback && (
+        <div
+          className="share-fallback"
+          role="region"
+          aria-label="העתקה ידנית לשיתוף"
+        >
+          <button
+            className="icon-button"
+            aria-label="סגירת חלונית השיתוף"
+            onClick={() => setShareFallback("")}
+          >
+            <X size={18} />
+          </button>
+          <p>אפשר להעתיק את הרעיון מכאן:</p>
+          <textarea
+            aria-label="טקסט לשיתוף"
+            value={shareFallback}
+            readOnly
+            onFocus={(e) => e.target.select()}
+          />
+        </div>
+      )}
+    </div>
+  );
 }

@@ -5,29 +5,33 @@
   "scripts": {
     "dev": "next dev --hostname 0.0.0.0",
     "build": "next build",
-    "start": "next start --hostname 0.0.0.0",
+    "start": "serve out --listen 3000",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "tsx --test tests/*.test.ts",
-    "test:e2e": "playwright test"
+    "format": "prettier --write ."
   },
   "dependencies": {
+    "@fontsource/heebo": "^5.2.8",
+    "lucide-react": "^0.577.0",
     "next": "^16.2.1",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "lucide-react": "^0.577.0",
-    "@fontsource/heebo": "^5.2.8"
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.1",
-    "tailwindcss": "^4.2.1",
-    "typescript": "^5.9.3",
     "@types/node": "^22.19.15",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.1",
+    "prettier": "^3.9.6",
+    "serve": "^14.2.6",
+    "tailwindcss": "^4.2.1",
     "tsx": "^4.21.0",
-    "@playwright/test": "^1.58.2"
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   }
 }
