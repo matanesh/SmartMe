@@ -14,7 +14,7 @@ The feed opens immediately, without an onboarding questionnaire. The first batch
 
 Five-minute sessions contain five related cards. The time label includes reflection and interaction, and is a product target rather than a timer or measured completion claim. People can leave, resume, revisit the previous card, or replay a finished session.
 
-Saved is a simple personal collection on this device. Interesting is a private signal with no invented popularity count. Sharing opens the native share sheet where supported, otherwise copies text and a direct idea link. Localhost links are useful only where that host is reachable.
+Saved is a simple personal collection on this device. Interesting is a private signal with no invented popularity count. Sharing opens an accessible sheet with copy and native sharing choices, plus a manual text fallback. Localhost links are useful only where that host is reachable.
 
 Audio tests the interface and whether the format interests people. All three episode demos are silent and visibly labelled. Episode titles are proposals for future recordings, not claims that finished audio exists.
 

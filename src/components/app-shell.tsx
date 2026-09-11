@@ -8,7 +8,6 @@ import {
   Check,
   Sparkles,
   Sprout,
-  X,
 } from "lucide-react";
 import { contentRepository } from "@/lib/content-repository";
 import { TOPICS, type KnowledgeItem, type Topic } from "@/lib/models";
@@ -21,6 +20,7 @@ import { DiscoverySidebar, SessionPromo } from "./discovery-sidebar";
 import { SessionView } from "./session-view";
 import { AudioView } from "./audio-view";
 import { MiniPlayer } from "./mini-player";
+import { ShareSheet, type ShareDraft } from "./share-sheet";
 
 const headings: Record<
   string,
@@ -62,7 +62,7 @@ export function AppShell() {
   const [topic, setTopic] = useState<Topic | "all">("all");
   const [visibleCount, setVisibleCount] = useState(8);
   const [toast, setToast] = useState("");
-  const [shareFallback, setShareFallback] = useState("");
+  const [shareDraft, setShareDraft] = useState<ShareDraft | null>(null);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
@@ -78,27 +78,19 @@ export function AppShell() {
     clearTimeout(toastTimeout.current);
     toastTimeout.current = setTimeout(() => setToast(""), 2800);
   };
-  const share = async (item: KnowledgeItem) => {
+  const share = (item: KnowledgeItem) => {
     const url =
       window.location.origin + window.location.pathname + "#idea/" + item.id;
     const title = item.title.replace(/\n/g, " ");
     const text = [title, item.content, item.source, item.sourceUrl, url]
       .filter(Boolean)
       .join("\n\n");
-    if (navigator.share) {
-      try {
-        await navigator.share({ title, text: item.content, url });
-        return;
-      } catch (error) {
-        if (error instanceof Error && error.name === "AbortError") return;
-      }
-    }
-    try {
-      await navigator.clipboard.writeText(text);
-      notify("הרעיון והקישור הועתקו. אפשר לשתף.");
-    } catch {
-      setShareFallback(text);
-    }
+    setShareDraft({
+      title,
+      text,
+      url,
+      supportsNative: typeof navigator.share === "function",
+    });
   };
   const card = (item: KnowledgeItem, featured = false) => (
     <KnowledgeCard
@@ -228,7 +220,11 @@ export function AppShell() {
                         ? "הגילויים של היום"
                         : "רגע של " + topic}
                   </h2>
-                  <span>{items.length} רעיונות לסקרנות שלך</span>
+                  <span>
+                    {items.length === 1
+                      ? "רעיון אחד לסקרנות שלך"
+                      : `${items.length} רעיונות לסקרנות שלך`}
+                  </span>
                 </div>
                 <div className="feed">
                   {items.slice(0, visibleCount).map((item, index) => (
@@ -325,27 +321,8 @@ export function AppShell() {
           {toast}
         </div>
       )}
-      {shareFallback && (
-        <div
-          className="share-fallback"
-          role="region"
-          aria-label="העתקה ידנית לשיתוף"
-        >
-          <button
-            className="icon-button"
-            aria-label="סגירת חלונית השיתוף"
-            onClick={() => setShareFallback("")}
-          >
-            <X size={18} />
-          </button>
-          <p>אפשר להעתיק את הרעיון מכאן:</p>
-          <textarea
-            aria-label="טקסט לשיתוף"
-            value={shareFallback}
-            readOnly
-            onFocus={(e) => e.target.select()}
-          />
-        </div>
+      {shareDraft && (
+        <ShareSheet draft={shareDraft} onClose={() => setShareDraft(null)} />
       )}
     </div>
   );
