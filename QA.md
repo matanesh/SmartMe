@@ -56,3 +56,12 @@ This is a functional product prototype, not a production accessibility, security
 - The first automated run and the post-build run both passed. The post-build run completed 1 explicitly numbered E2E test with no page errors; the existing 11 Node tests, strict typecheck, ESLint, Prettier check, static build, and `git diff --check` also passed.
 - Temporary storage diagnostics showed a live `useSyncExternalStore` subscriber and were removed before the final build. No application logic change was needed: deterministic Playwright clicks update both the rendered controls and local storage. Earlier accessibility-driver click results were inconsistent and are not treated as application evidence.
 - The local production server remains `serve out --listen 3000`; HTTP root and every referenced client asset returned 200. User-environment verification should be repeated on the authorized HTTPS Vercel Preview, because the raw-IP HTTP preview is not a release-quality handoff.
+
+## Vercel Preview and Production gate — 2026-09-12
+
+- A first deployment investigation reproduced a platform-level 404. Vercel had created the new project with the `Other` preset, so the successful Next.js build was not routed as a Next.js deployment. This was isolated before changing application code.
+- The project preset was corrected to `Next.js` with automatic build/output detection. A final Vercel dry run then reported the `nextjs` framework and confirmed that `.hermes/` and obsolete `.openai/` hosting metadata were absent from all 88 deployment inputs (including `.vercelignore` itself) via the new ignore rules.
+- Preview `https://smartme-rega-ed1ukixb1-mataneshs-projects.vercel.app` reached Ready. Its root returned the real Hebrew app with HTTP 200; all eight referenced CSS/JavaScript assets returned HTTP 200 with non-HTML content types.
+- The 390 px Playwright interaction gate passed against that exact Preview: 1 test, zero failures.
+- The verified Preview was promoted to Production at `https://smartme-rega.vercel.app`. Independent root/asset checks passed there, followed by the same 390 px Playwright gate: 1 test, zero failures.
+- Deployment protection is disabled only for this isolated public-demo project. No unrelated Vercel project, custom domain, or DNS record was changed.

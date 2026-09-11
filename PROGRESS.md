@@ -1,6 +1,6 @@
 # Progress and session handoff
 
-Updated: 2026-09-11 20:31 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
+Updated: 2026-09-12 00:47 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
 
 ## Current Status
 
@@ -8,7 +8,7 @@ The complete early prototype is implemented under the working Hebrew brand **ר�
 
 The production static build, strict TypeScript check, ESLint, and all 11 targeted tests pass. Browser QA has verified mobile RTL at 390 px and 320 px, zero horizontal overflow at 320 px, save/like/read persistence after reload, quiz feedback, five-step completion, session resume after reload, audio pause, seek-to-end, 15-second skip, speed changes, and player persistence across views.
 
-**The requested prototype is complete.** README, PRODUCT, ARCHITECTURE, CONTENT_MODEL, TODO, and the browser/automated verification record in `QA.md` are complete. Development preview is running at `http://localhost:3000` in the current environment; a new session should check the URL before launching another server.
+**The requested prototype is complete and has a verified Vercel release.** README, PRODUCT, ARCHITECTURE, CONTENT_MODEL, TODO, and the browser/automated verification record in `QA.md` are complete. Production is available at `https://smartme-rega.vercel.app`. A new session should still inspect live local process state before launching another server.
 
 Final browser checks also passed for topic switching, load-more from eight to sixteen cards, unsaving into an empty collection, audio replay from zero and close, direct idea navigation, browser Back, explicit clipboard sharing (including the exact idea link), manual copy availability, and Escape dismissal of the share dialog. The final desktop DOM check at 1440 px confirms desktop rails and no horizontal overflow. The preview is back on Discover with viewport overrides cleared. No captured application warnings/errors remained. The final production build passes after the sharing refinement.
 
@@ -41,21 +41,19 @@ No implementation blockers or unfinished requested features. The following are d
 
 Source-based cards have citations and original prose, but a publication-level Hebrew/source review remains a product experiment.
 
-## Remote preview checkpoint — 2026-09-11
+## Earlier remote preview checkpoint — 2026-09-11 (superseded)
 
-- The user requested access from outside the local computer. A Cloudflare Quick Tunnel launch was rejected by automatic policy review with the generic reason `blocked by policy`; no tunnel was started. The downloaded, SHA256-verified helper remains outside the repository at `%LOCALAPPDATA%/SmartMePreview/cloudflared.exe` and is not running.
-- A safer private static preview was registered with Sites. Exact project: `appgprj_6aa3d386835c8191b9a1b8ea9f30b50f`. Expected URL: `https://smartme-rega.jammy-shell-7638.chatgpt.site`. Registration is complete; publication is pending at this checkpoint. Do not create another Site.
-- `.openai/hosting.json` preserves the project ID and `static.directory: out`. `README.md` explains remote access. No application code changed; a fresh production build passed.
-- The Site is owner-only. Hosting requires the owner's ChatGPT account, while the app itself retains its backend-free, authentication-free architecture. Local data is per browser/origin, so localhost progress does not migrate.
-- Next: commit and push this checkpoint to GitHub; push the same exact source to the Site source branch with its temporary credential; package the static build with the Sites helper; save and privately deploy; poll until terminal success; give the user the confirmed URL; record the final result here and push again. Do not expose credentials or add them to Git configuration.
+- A Cloudflare Quick Tunnel was rejected by automatic policy review and was never started.
+- A private Sites registration was explored but not completed as the release path. `.openai/hosting.json` remains a historical configuration artifact.
+- The active verified release path is now the isolated Vercel project documented below. Do not create another Vercel project or resume the obsolete Sites publication workflow without a new product reason.
 
 ## Next Steps
 
-1. Fetch the latest `codex/hebrew-knowledge-prototype` branch from origin and inspect working-tree state before continuing in another environment. The initial complete checkpoint was successfully pushed at `2b3a013`; this completion handoff must be pushed immediately as instructed below.
-2. Use `npm ci` if dependencies are absent. Check `http://localhost:3000` before starting `npm run dev`; this session leaves its preview running.
-3. Read `PRODUCT.md`, `TODO.md`, and `QA.md`. The next product step is a short trial with native Hebrew readers, followed by one real Hebrew MP3 when the user wants to test audio content.
+1. Fetch the latest `codex/hebrew-knowledge-prototype` branch and inspect live worktree/process state before continuing.
+2. Use `npm ci` if dependencies are absent. Check port 3000 before launching a local server.
+3. Continue the weekend mission with the mobile RTL/accessibility audit; do not repeat the unchanged Vercel release gate.
 4. For new feature requests, keep local fixtures and adapter boundaries until product evidence calls for persistence or identity. Do not introduce backend/auth infrastructure merely to continue this prototype.
-5. Continue maintaining and pushing this handoff file at significant milestones. Remote preview publication was requested; no default-branch merge has been requested.
+5. Continue maintaining and pushing this handoff file at significant milestones. Do not merge the default branch without a request.
 
 ## Weekend mission cycle 1 — interaction reliability
 
@@ -65,6 +63,16 @@ Source-based cards have citations and original prose, but a publication-level He
 - Verified: 11 Node tests pass; strict typecheck passes; ESLint passes; Prettier check passes; Next.js 16.3.4 static production build passes; 1 Playwright E2E test passes; `git diff --check` passes.
 - No application behavior was changed because the deterministic browser test did not reproduce an application fault. Earlier accessibility-driver clicks were inconsistent and are not accepted as product evidence. The remaining user-environment check belongs on the authorized HTTPS Vercel Preview.
 - Exact next action: create a new or safely isolated Vercel Preview from this verified branch, record its URL/project identity without secrets, then run the same E2E test and HTTP checks against that URL before any Production promotion.
+
+## Weekend mission cycle 2 — verified Vercel release
+
+- Created the isolated Vercel project `smartme-rega`; the two unrelated existing projects were inventoried and left unchanged.
+- Reproduced an initial platform 404 and traced it to the project's automatically selected `Other` framework preset, not application behavior. Corrected only this project to the `Next.js` preset with automatic build/output detection.
+- Added `.vercelignore` after a dry run proved local mission and legacy hosting metadata would otherwise be uploaded. The final dry run reported framework `nextjs`, 88 inputs (including `.vercelignore` itself), and no `.hermes/` or `.openai/` files.
+- Verified Preview: `https://smartme-rega-ed1ukixb1-mataneshs-projects.vercel.app`. Root plus all eight CSS/JavaScript assets returned HTTP 200; the 390 px Playwright interaction test passed.
+- Promoted that verified build. Production: `https://smartme-rega.vercel.app`. Root plus all eight assets returned HTTP 200; the same 390 px Playwright interaction test passed with zero failures.
+- No custom domain, DNS, unrelated deployment, backend, secret, or user data was changed.
+- Exact next action: begin the mobile RTL/accessibility workstream with a focused 320/390 px audit, including 200% text and keyboard/focus evidence; avoid repeating the unchanged deployment gate.
 
 ## Persistent user instruction
 

@@ -24,9 +24,9 @@ The `out/` directory contains the complete static app. `npm start` serves these 
 
 ## Remote preview
 
-The prototype is registered with Sites at [smartme-rega.jammy-shell-7638.chatgpt.site](https://smartme-rega.jammy-shell-7638.chatgpt.site). See `PROGRESS.md` for the latest publication status. Access is private to the owner's ChatGPT account; this hosting access gate does not add authentication to the app itself. Once published, the preview does not depend on the development computer remaining online.
+The verified production release is [smartme-rega.vercel.app](https://smartme-rega.vercel.app). The release is hosted in the isolated Vercel project `smartme-rega`; it does not depend on the development computer remaining online and needs no backend or runtime secrets.
 
-`.openai/hosting.json` identifies the existing Site and the static `out/` output. Reuse this registration for updates. Build and publish the static files with Sites; no backend or runtime secrets are needed. The hosted origin has its own localStorage, so saved ideas from localhost do not transfer automatically.
+Vercel previews use generated deployment URLs. The release gate checks the exact Preview first, then promotes that verified build to Production. The hosted origin has its own localStorage, so saved ideas from localhost or another Preview do not transfer automatically. `.vercelignore` keeps local mission notes and obsolete hosting metadata out of deployment inputs.
 
 ## What works
 
