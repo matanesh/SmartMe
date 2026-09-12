@@ -1,6 +1,6 @@
 # Progress and session handoff
 
-Updated: 2026-09-12 17:42 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
+Updated: 2026-09-12 22:06 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
 
 ## Current Status
 
@@ -39,7 +39,7 @@ Final browser checks also passed for topic switching, load-more from eight to si
 
 No implementation blockers or unfinished requested features. The following are documented limits of this prototype, not requirements to build production infrastructure: real MP3 playback, physical iOS/Android QA, 200% text enlargement, a full screen-reader audit, and native OS share-sheet delivery remain follow-ups. The final 1440 px screenshot capture was unavailable in the preview tool; desktop DOM/overflow was checked and the earlier desktop composition was visually inspected.
 
-The first complete editorial/source audit is documented in `CONTENT_AUDIT.md`. Its first four-card correction batch is complete. A second native-Hebrew reader and manual browser checks for the three restricted institutional pages remain publication-level follow-ups.
+The first complete editorial/source audit is documented in `CONTENT_AUDIT.md`. Its first four-card correction batch and the three restricted-link replacements are complete. A second native-Hebrew reader remains the publication-level follow-up before expanding the corpus.
 
 ## Earlier remote preview checkpoint — 2026-09-11 (superseded)
 
@@ -51,7 +51,7 @@ The first complete editorial/source audit is documented in `CONTENT_AUDIT.md`. I
 
 1. Fetch the latest `codex/hebrew-knowledge-prototype` branch and inspect live worktree/process state before continuing.
 2. Use `npm ci` if dependencies are absent. Check port 3000 before launching a local server.
-3. Continue the weekend mission with manual-browser source verification for Smithsonian, British Museum, and USGS. Do not add cards until those checks and a second native-Hebrew reading satisfy the audit gate.
+3. Continue the weekend mission with the marketing-readiness package while the second native-Hebrew reading remains a human follow-up. Do not expand the corpus until that reading satisfies the audit gate.
 4. For new feature requests, keep local fixtures and adapter boundaries until product evidence calls for persistence or identity. Do not introduce backend/auth infrastructure merely to continue this prototype.
 5. Continue maintaining and pushing this handoff file at significant milestones. Do not merge the default branch without a request.
 
@@ -111,6 +111,15 @@ The first complete editorial/source audit is documented in `CONTENT_AUDIT.md`. I
 - The static production export was rebuilt and restarted on port 3000. A dedicated 390 px browser journey rendered all four revised cards, asserted both source destinations, found no horizontal overflow or escaped card, and captured no console/page errors.
 - Verified: 15/15 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh Next.js 16.3.4 static build, and 4/4 Playwright E2E tests. Local screenshot evidence is ignored at `test-results/mobile-accessibility/editorial-history-390.png`.
 - Exact next action: manually open and verify the Smithsonian octopus, British Museum Rosetta Stone, and USGS map-projection claims in a real browser; replace only a source that cannot support its exact claim. Do not expand the corpus yet.
+
+## Weekend mission cycle 7 — accessible sources for three verified claims
+
+- Reproduced the access issue in a real browser before changing data: Smithsonian Ocean and British Museum required Cloudflare verification, while the USGS landing page returned a CloudFront 403.
+- Replaced only the reader-facing source labels and URLs. Natural History Museum supports the octopus anatomy claim; World History Encyclopedia supports the Rosetta Stone decree/three-script claim; the accessible USGS Professional Paper 1395 landing page links the authoritative manual supporting projection distortion, conformality/local angles, and Mercator. Card text, stable IDs, count, sessions, and audio references are unchanged.
+- TDD RED/GREEN added three source contracts: 3/3 failed on the old restricted URLs, then 3/3 passed after the minimal replacements.
+- The rebuilt static app passed a dedicated 390×844 browser journey for all three exact source links, RTL metadata, no overflow, and no console/page errors. The history-map card was also visually inspected without clipping, overlap, broken labels, or obvious layout regression.
+- Verified: 18/18 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh Next.js 16.3.4 static build, 4/4 Playwright E2E tests, and local HTTP 200 (47,688 bytes).
+- Exact next action: prepare the bounded marketing-readiness package (positioning, launch copy, FAQ/privacy, screenshot/demo plan, organic launch plan, measurable pilot) without publishing or contacting users. Keep corpus expansion blocked on a second native-Hebrew reading.
 
 ## Persistent user instruction
 

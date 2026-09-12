@@ -92,6 +92,35 @@ test("career-decisions uses a concrete decision-journal hook", () => {
   assert.match(itemById("career-decisions").title, /מה ישנה את דעתכם/);
 });
 
+test("science-octopus cites a browser-accessible museum source for its anatomy", () => {
+  const item = itemById("science-octopus");
+  assert.equal(
+    item.sourceUrl,
+    "https://www.nhm.ac.uk/discover/octopuses-keep-surprising-us-here-are-eight-examples-how.html",
+  );
+  assert.match(item.source, /Natural History Museum/);
+  assert.match(item.content, /שלושה לבבות|שני לבבות/);
+  assert.match(item.content, /המוציאנין/);
+});
+
+test("history-stone cites a browser-accessible source for all three scripts", () => {
+  const item = itemById("history-stone");
+  assert.equal(item.sourceUrl, "https://www.worldhistory.org/Rosetta_Stone/");
+  assert.match(item.source, /World History Encyclopedia/);
+  assert.match(item.content, /הירוגליפים/);
+  assert.match(item.content, /דמוטית/);
+  assert.match(item.content, /יוונית/);
+});
+
+test("history-map links to the accessible USGS projection manual page", () => {
+  const item = itemById("history-map");
+  assert.equal(item.sourceUrl, "https://pubs.usgs.gov/publication/pp1395");
+  assert.match(item.source, /USGS/);
+  assert.match(item.content, /מרקטור/);
+  assert.match(item.content, /זוויות/);
+  assert.match(item.content, /קטבים/);
+});
+
 test("editorial catalog keeps exactly the contracted 40 stable ids", () => {
   assert.equal(knowledgeItems.length, 40);
   assert.equal(ids.size, knowledgeItems.length);

@@ -340,9 +340,9 @@ export const moreKnowledge: KnowledgeItem[] = [
     title: "לתמנון יש שלושה לבבות.\nולכל אחד יש תפקיד.",
     content:
       "שני לבבות מזרימים דם אל הזימים, ולב שלישי מזרים אותו לשאר הגוף. הדם שלו משתמש בהמוציאנין, חלבון שמכיל נחושת ונושא חמצן, ומקבל גוון כחול כשהוא מחומצן. העולם החי מזכיר לנו שוב ושוב שמה שנראה לנו ״הדרך הרגילה״ הוא רק אחת מכמה דרכים.",
-    source: "Smithsonian Ocean · Octopuses",
+    source: "Natural History Museum · Octopuses",
     sourceUrl:
-      "https://ocean.si.edu/ocean-life/invertebrates/octopuses-squids-and-relatives",
+      "https://www.nhm.ac.uk/discover/octopuses-keep-surprising-us-here-are-eight-examples-how.html",
     tags: ["ים", "בעלי חיים"],
     estimatedReadSeconds: 25,
     accent: "lavender",
@@ -393,8 +393,8 @@ export const moreKnowledge: KnowledgeItem[] = [
     title: "אותו מסר, שלושה כתבים.\nומפתח לשפה שנשכחה.",
     content:
       "על אבן רוזטה נכתב צו בשלושה כתבים: הירוגליפים, דמוטית ויוונית עתיקה. היוונית שהחוקרים הכירו שימשה נקודת השוואה בפענוח הכתב המצרי. האבן לא פתרה הכול לבדה, אבל היא נתנה עוגן משותף. לפעמים כדי להבין דבר לא מוכר, צריך למצוא את אותו רעיון בצורה שכבר מכירים.",
-    source: "British Museum · Rosetta Stone",
-    sourceUrl: "https://www.britishmuseum.org/collection/object/Y_EA24",
+    source: "World History Encyclopedia · Rosetta Stone",
+    sourceUrl: "https://www.worldhistory.org/Rosetta_Stone/",
     tags: ["שפה", "פענוח"],
     estimatedReadSeconds: 30,
     accent: "peach",
@@ -419,8 +419,8 @@ export const moreKnowledge: KnowledgeItem[] = [
     title: "כל מפה שטוחה\nמוותרת על משהו.",
     content:
       "כדי להציג כדור על דף צריך לבחור היטל, וכל בחירה מעוותת משהו: שטחים, זוויות, מרחקים או צורות. היטל מרקטור שומר על זוויות מקומיות, אבל מגדיל מאוד אזורים הקרובים לקטבים. מפה שימושית היא לא תמונה ניטרלית של העולם; היא כלי שנבנה למטרה מסוימת.",
-    source: "USGS · Map Projections",
-    sourceUrl: "https://www.usgs.gov/publications/map-projections",
+    source: "USGS · Map Projections: A Working Manual",
+    sourceUrl: "https://pubs.usgs.gov/publication/pp1395",
     tags: ["מפות", "נקודת מבט"],
     estimatedReadSeconds: 25,
     accent: "lavender",

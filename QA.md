@@ -92,3 +92,11 @@ This is a functional product prototype, not a production accessibility, security
 - Both new external pages returned HTTP 200. Deterministic text checks found Hugging Face's external-retrieval/index-update support and NASA's launch-date/free-return support.
 - The rebuilt static app passed a dedicated 390×844 browser check for all four rendered cards, both exact source-link destinations, zero horizontal overflow, zero escaped cards, and no console/page errors. Ignored screenshot evidence: `test-results/mobile-accessibility/editorial-history-390.png`.
 - Full verification passed: 15/15 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh Next.js static build, and 4/4 Playwright E2E tests.
+
+## Restricted-source remediation gate — 2026-09-12
+
+- Real browser attempts reproduced reader-facing access failures before editing: Smithsonian Ocean and British Museum stopped at Cloudflare verification, and the USGS publication landing page returned a CloudFront 403.
+- The unchanged claims were checked against accessible replacements: Natural History Museum explicitly documents three octopus hearts, the two gill pumps, the systemic pump, and copper-based haemocyanin; World History Encyclopedia documents the decree in Hieroglyphic, Demotic, and Greek and the role of comparison in decipherment; the accessible USGS Professional Paper 1395 landing page links the canonical PDF documenting unavoidable projection distortion, conformality/local angles, and Mercator.
+- Three source contracts were added first and failed against the restricted URLs. They pass after changing only the source labels and destinations; stable IDs and all card text remain unchanged.
+- At 390×844, all three revised cards rendered with the exact expected source link, `target="_blank"`, RTL Hebrew metadata, zero document overflow, and zero console/page errors. Ignored screenshot evidence: `test-results/mobile-accessibility/source-history-map-390.png`.
+- Full verification passed: 18/18 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh Next.js static build, 4/4 Playwright E2E tests, and local static HTTP 200 (47,688 bytes).
