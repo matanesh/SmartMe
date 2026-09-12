@@ -129,7 +129,7 @@ The first complete editorial/source audit is documented in `CONTENT_AUDIT.md`. I
 - Local verification passed: 19/19 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, Next.js 16.3.4 static build, and 4/4 Playwright E2E tests. A dedicated physical-click browser check at 390×844 and 1280×900 confirmed truthful labels, exact viewport width, and zero console/page errors; ignored screenshot evidence is `test-results/mobile-accessibility/truthful-progress-390.png` (62,505 bytes).
 - Verified Preview `https://smartme-rega-i0fdmp40z-mataneshs-projects.vercel.app` (`dpl_DjoKWpdxzZ63tDgTUi8RBQdijd1h`) passed HTTP 200, 4/4 E2E, and the dedicated label/overflow check, then was promoted.
 - Canonical Production `https://smartme-rega.vercel.app` now maps to Ready deployment `dpl_FxFBELrvzGhC45UqbNaupx4t2Uaj`; HTTP 200, 4/4 E2E, 390/1280 px truthful-label checks, no overflow, and no browser errors all passed.
-- Verified implementation/package commit `5a59a21d2afcaf11e5b12f7f46553110005210d6` (`[verified] prepare truthful marketing pilot`) was pushed to the approved branch.
+- Verified implementation/package commit `5a59a21395262e5d29423eeb8b52e8690a98d557` (`[verified] prepare truthful marketing pilot`) was pushed to the approved branch.
 - Exact next action: produce the six local 390×844 screenshot candidates specified in `MARKETING_READINESS.md`, with reset state and no personal data; verify each against the shot contract but do not publish. Corpus expansion and outreach remain blocked on human review/approval.
 
 ## Persistent user instruction
