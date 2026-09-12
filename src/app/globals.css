@@ -838,7 +838,7 @@ h1 {
   color: #757a68;
   font-size: 14px;
   padding: 9px 0;
-  min-height: 42px;
+  min-height: 44px;
 }
 .back-button:disabled {
   opacity: 0.35;
@@ -1030,7 +1030,7 @@ h1 {
   color: white;
   font-size: 13px;
   padding: 10px 13px;
-  min-height: 42px;
+  min-height: 44px;
   border-radius: 8px;
 }
 .episode-related {
@@ -1040,7 +1040,7 @@ h1 {
 }
 .episode-related summary {
   cursor: pointer;
-  min-height: 30px;
+  min-height: 44px;
 }
 .related-link {
   display: block;
@@ -1052,6 +1052,7 @@ h1 {
   background: none;
   border-top: 1px solid var(--line);
   padding: 10px 0;
+  min-height: 44px;
 }
 .mini-player {
   position: fixed;
@@ -1256,6 +1257,7 @@ h1 {
 .share-sheet summary {
   cursor: pointer;
   padding: 8px 0;
+  min-height: 44px;
 }
 .share-sheet textarea {
   width: 100%;
@@ -1598,7 +1600,8 @@ h1 {
   }
   .mini-title {
     flex: 1;
-    min-width: 150px;
+    flex-basis: 100%;
+    min-width: 0;
   }
   .mini-title h2 {
     font-size: 13px;
@@ -1607,18 +1610,22 @@ h1 {
     font-size: 10px;
   }
   .mini-play {
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
   }
   .player-skip {
-    min-width: 27px;
+    min-width: 44px;
   }
   .playback-rate {
-    min-width: 34px;
+    min-width: 44px;
+    min-height: 44px;
     font-size: 12px;
   }
   .mini-close {
-    min-width: 28px;
+    min-width: 44px;
+  }
+  .player-timeline input {
+    min-height: 44px;
   }
   .has-player .workspace {
     padding-bottom: 230px;

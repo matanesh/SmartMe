@@ -75,3 +75,12 @@ This is a functional product prototype, not a production accessibility, security
 - The share dialog initially focuses its close control and now restores focus to the originating Share button after button dismissal by using the native dialog close lifecycle. Textareas and disclosure summaries also receive the shared visible focus ring.
 - Full-page evidence is generated in ignored local artifacts: `test-results/mobile-accessibility/discover-320.png` (310,920 bytes), `discover-390.png` (351,171 bytes), and `focus-restored-390.png` (59,598 bytes). The 320 px reflow check is the layout equivalent of viewing a 640 px CSS-width page at 200% browser zoom; physical-device text-only enlargement and VoiceOver/TalkBack remain separate follow-ups.
 - Post-fix verification passed: 11 Node tests, strict TypeScript, ESLint, Prettier on the changed source/test files, a fresh Next.js static build, 3 E2E tests, HTTP 200 from the restarted `serve out` process, no browser console/page errors, and visual desktop inspection with no obvious clipping or layout regression.
+
+## Extended mobile accessibility gate — 2026-09-12
+
+- Added a fourth Playwright E2E test covering Sessions, the session reader, expanded Share, Audio, related ideas, and the active mini-player at 320×844 and 390×844.
+- Every measured button, input, disclosure, and textarea in those flows is at least 44×44 px; document width remains equal to viewport width and no measured control escapes horizontally.
+- Share is retested at a forced 500 px viewport height. The expanded dialog has real vertical overflow (`scrollHeight > clientHeight`), the textarea can be scrolled fully into the visible dialog, and both Escape and an asserted outside-dialog backdrop click dismiss the dialog and restore focus to the originating Share control.
+- The mobile mini-player now lays out its title above the control row. Tests prove its five buttons do not overlap, the title does not collide with them, and the player remains above the fixed bottom navigation at both widths.
+- Native disclosure markers are preserved. The final 320 px screenshot was visually inspected with no visible clipping, horizontal overflow, or player/navigation overlap.
+- Verification passed: 11 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh static production build, and 4 explicitly numbered E2E tests. Screenshot evidence is local and ignored under `test-results/mobile-accessibility/`.

@@ -1,6 +1,6 @@
 # Progress and session handoff
 
-Updated: 2026-09-12 04:57 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
+Updated: 2026-09-12 09:21 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
 
 ## Current Status
 
@@ -51,7 +51,7 @@ Source-based cards have citations and original prose, but a publication-level He
 
 1. Fetch the latest `codex/hebrew-knowledge-prototype` branch and inspect live worktree/process state before continuing.
 2. Use `npm ci` if dependencies are absent. Check port 3000 before launching a local server.
-3. Continue the weekend mission with the mobile RTL/accessibility audit; do not repeat the unchanged Vercel release gate.
+3. Continue the weekend mission with the source-backed content/editorial audit; do not repeat the completed mobile or Vercel gates unless source or deployment state changes.
 4. For new feature requests, keep local fixtures and adapter boundaries until product evidence calls for persistence or identity. Do not introduce backend/auth infrastructure merely to continue this prototype.
 5. Continue maintaining and pushing this handoff file at significant milestones. Do not merge the default branch without a request.
 
@@ -82,6 +82,16 @@ Source-based cards have citations and original prose, but a publication-level He
 - The 320 px reflow result is equivalent to a 640 px CSS-width layout viewed at 200% browser zoom. Physical-device text-only enlargement and VoiceOver/TalkBack remain explicitly unverified.
 - Fresh verification passed: 11 Node tests, strict typecheck, ESLint, changed-file Prettier, static Next.js build, 3 E2E tests, browser console/page-error audit, and HTTP 200 from the restarted static server. Screenshot evidence remains local under ignored `test-results/mobile-accessibility/`.
 - Exact next action: continue the bounded mobile accessibility audit through Sessions, Audio, the active mini-player, and the expanded Share sheet at 320/390 px; test their target sizes, scrollability, focus behavior, and overflow before broader visual polish.
+
+## Weekend mission cycle 4 — Sessions, Audio, player, and Share accessibility
+
+- Extended the deterministic mobile gate through the Sessions list/reader, expanded Share dialog, Audio library, related-idea disclosure, and active mini-player at both 320 px and 390 px.
+- TDD RED isolated explicit source constraints rather than a generic layout fault: session back controls were 42 px high; episode play controls were 42 px; episode/share disclosures were 30 px or below the 44 px target; and mobile player controls were narrowed to 27–38 px with a 42 px rate control.
+- The minimal CSS correction preserves native disclosure markers, makes the affected controls at least 44×44 px, and gives the player title its own row so five enlarged controls fit without overlap on a 320 px viewport.
+- The new E2E journey proves no document overflow or horizontally escaped controls; 44 px targets; forced short-viewport Share scrolling; visible textarea recovery; Escape and backdrop dismissal with focus restoration; player/title/control non-overlap; and separation between the fixed player and bottom navigation.
+- Verified: 11/11 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh Next.js 16.3.4 static build, and 4/4 Playwright E2E tests. Local root remained HTTP 200. The 320 px player screenshot was visually inspected with no clipping or player/navigation collision; ignored evidence is in `test-results/mobile-accessibility/audio-player-{320,390}.png`.
+- Independent review found and prompted correction of overbroad test wording, an unproven backdrop point, loss of the native disclosure marker, and a weak dialog-scroll assertion. The final review passed with no security or logic blockers.
+- Exact next action: audit the 40-card corpus for Hebrew quality, duplication, source fidelity, citation validity, and weak hooks; preserve source URLs and write an evidence-backed editorial verdict before expanding content.
 
 ## Persistent user instruction
 

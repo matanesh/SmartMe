@@ -60,6 +60,48 @@ async function controlBounds(page, selector) {
   );
 }
 
+async function viewportState(page) {
+  return page.evaluate(() => {
+    const measuredControls = [
+      ...document.querySelectorAll("button, input, summary, textarea"),
+    ]
+      .filter((element) => {
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        return (
+          style.display !== "none" &&
+          style.visibility !== "hidden" &&
+          rect.width > 0 &&
+          rect.height > 0
+        );
+      })
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+        return {
+          label:
+            element.getAttribute("aria-label") ??
+            element.textContent?.trim().replace(/\s+/g, " "),
+          bottom: rect.bottom,
+          height: rect.height,
+          left: rect.left,
+          right: rect.right,
+          top: rect.top,
+          width: rect.width,
+        };
+      });
+    return {
+      clientWidth: document.documentElement.clientWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+      outsideHorizontally: measuredControls.filter(
+        ({ left, right }) => left < 0 || right > innerWidth,
+      ),
+      undersized: measuredControls.filter(
+        ({ height, width }) => height < 44 || width < 44,
+      ),
+    };
+  });
+}
+
 test("mobile controls meet 44px targets without page overflow at 320px and 390px", async (t) => {
   await mkdir(evidenceDir, { recursive: true });
   const browser = await chromium.launch({ headless: true });
@@ -137,4 +179,166 @@ test("keyboard skip and share dialog restore focus to the share trigger", async 
   assert.deepEqual(errors, []);
 
   await page.screenshot({ path: `${evidenceDir}/focus-restored-390.png` });
+});
+
+test("sessions, audio, player, and expanded share sheet remain usable on narrow phones", async (t) => {
+  await mkdir(evidenceDir, { recursive: true });
+  const browser = await chromium.launch({ headless: true });
+  t.after(() => browser.close());
+
+  for (const width of [320, 390]) {
+    const { context, errors, page } = await openPage(browser, width);
+
+    await page
+      .getByRole("navigation", { name: "ניווט בנייד" })
+      .getByRole("button", { name: "יש לי 5 דקות" })
+      .click();
+    await page.getByRole("heading", { name: "יש לי 5 דקות." }).waitFor();
+    let state = await viewportState(page);
+    assert.equal(state.scrollWidth, state.clientWidth);
+    assert.deepEqual(state.outsideHorizontally, []);
+    assert.deepEqual(state.undersized, [], `${width}px session list controls`);
+
+    await page.locator(".session-tile").first().click();
+    await page.getByRole("button", { name: "לכל המסעות הקצרים" }).waitFor();
+    state = await viewportState(page);
+    assert.equal(state.scrollWidth, state.clientWidth);
+    assert.deepEqual(state.outsideHorizontally, []);
+    assert.deepEqual(
+      state.undersized,
+      [],
+      `${width}px session reader controls`,
+    );
+
+    const shareTrigger = page.getByRole("button", { name: /^שיתוף:/ }).first();
+    await page.setViewportSize({ width, height: 500 });
+    await shareTrigger.click();
+    await page
+      .getByText("הטקסט לשיתוף · אפשר גם להעתיק ידנית", { exact: true })
+      .click();
+    const dialog = page.getByRole("dialog");
+    const dialogScroll = await dialog.evaluate((element) => ({
+      clientHeight: element.clientHeight,
+      overflowY: getComputedStyle(element).overflowY,
+      scrollHeight: element.scrollHeight,
+    }));
+    assert.match(dialogScroll.overflowY, /auto|scroll/);
+    assert.ok(dialogScroll.scrollHeight > dialogScroll.clientHeight);
+    const dialogControls = await controlBounds(
+      page,
+      ".share-sheet button, .share-sheet summary, .share-sheet textarea",
+    );
+    assert.deepEqual(
+      dialogControls.filter(
+        ({ height, width: controlWidth }) => height < 44 || controlWidth < 44,
+      ),
+      [],
+      `${width}px expanded share controls`,
+    );
+    const dialogBox = await dialog.boundingBox();
+    assert.ok(
+      dialogBox && dialogBox.x >= 0 && dialogBox.x + dialogBox.width <= width,
+    );
+    await page.getByLabel("טקסט לשיתוף").scrollIntoViewIfNeeded();
+    const textareaBox = await page.getByLabel("טקסט לשיתוף").boundingBox();
+    assert.ok(
+      textareaBox &&
+        textareaBox.y >= dialogBox.y &&
+        textareaBox.y + textareaBox.height <= dialogBox.y + dialogBox.height,
+    );
+    await page.keyboard.press("Escape");
+    assert.equal(await dialog.count(), 0);
+    assert.equal(
+      await shareTrigger.evaluate(
+        (element) => element === document.activeElement,
+      ),
+      true,
+    );
+
+    await shareTrigger.click();
+    const backdropPoint = {
+      x: Math.max(1, dialogBox.x / 2),
+      y: Math.max(1, dialogBox.y / 2),
+    };
+    assert.equal(
+      backdropPoint.x >= dialogBox.x &&
+        backdropPoint.x <= dialogBox.x + dialogBox.width &&
+        backdropPoint.y >= dialogBox.y &&
+        backdropPoint.y <= dialogBox.y + dialogBox.height,
+      false,
+    );
+    await page.mouse.click(backdropPoint.x, backdropPoint.y);
+    assert.equal(await dialog.count(), 0);
+    assert.equal(
+      await shareTrigger.evaluate(
+        (element) => element === document.activeElement,
+      ),
+      true,
+    );
+    await page.setViewportSize({ width, height: 844 });
+
+    await page
+      .getByRole("navigation", { name: "ניווט בנייד" })
+      .getByRole("button", { name: "להקשיב" })
+      .click();
+    await page.getByRole("heading", { name: "רגע להקשיב." }).waitFor();
+    await page.locator(".episode-related summary").first().click();
+    state = await viewportState(page);
+    assert.equal(state.scrollWidth, state.clientWidth);
+    assert.deepEqual(state.outsideHorizontally, []);
+    assert.deepEqual(state.undersized, [], `${width}px audio controls`);
+
+    await page
+      .getByRole("button", { name: /^ניגון / })
+      .first()
+      .click();
+    const player = page.getByRole("region", { name: "נגן שמע" });
+    await player.waitFor();
+    state = await viewportState(page);
+    assert.equal(state.scrollWidth, state.clientWidth);
+    assert.deepEqual(state.outsideHorizontally, []);
+    assert.deepEqual(state.undersized, [], `${width}px mini-player controls`);
+    const playerBox = await player.boundingBox();
+    const titleBox = await player.locator(".mini-title").boundingBox();
+    const controlBoxes = await player.locator("button").evaluateAll((buttons) =>
+      buttons.map((button) => {
+        const rect = button.getBoundingClientRect();
+        return {
+          bottom: rect.bottom,
+          left: rect.left,
+          right: rect.right,
+          top: rect.top,
+        };
+      }),
+    );
+    const navBox = await page
+      .getByRole("navigation", { name: "ניווט בנייד" })
+      .boundingBox();
+    assert.ok(
+      playerBox && navBox && playerBox.y + playerBox.height <= navBox.y,
+    );
+    assert.ok(
+      titleBox &&
+        titleBox.y + titleBox.height <=
+          Math.min(...controlBoxes.map(({ top }) => top)),
+    );
+    for (let index = 0; index < controlBoxes.length; index += 1) {
+      for (let other = index + 1; other < controlBoxes.length; other += 1) {
+        const first = controlBoxes[index];
+        const second = controlBoxes[other];
+        const overlap =
+          first.left < second.right &&
+          first.right > second.left &&
+          first.top < second.bottom &&
+          first.bottom > second.top;
+        assert.equal(overlap, false, `${width}px mini-player controls overlap`);
+      }
+    }
+    assert.deepEqual(errors, [], `${width}px emitted browser errors`);
+
+    await page.screenshot({
+      path: `${evidenceDir}/audio-player-${width}.png`,
+    });
+    await context.close();
+  }
 });
