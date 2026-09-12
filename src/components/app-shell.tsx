@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { contentRepository } from "@/lib/content-repository";
 import { TOPICS, type KnowledgeItem, type Topic } from "@/lib/models";
+import { getDailyProgressLabel } from "@/lib/progress-label";
 import { useProgress } from "@/hooks/use-progress";
 import { useRoute } from "@/hooks/use-route";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
@@ -120,12 +121,7 @@ export function AppShell() {
     );
   const detailItem =
     view === "idea" ? contentRepository.getItem(detailId) : undefined;
-  const progressLabel =
-    state.todayReads.length === 1
-      ? "למדת היום רעיון אחד"
-      : state.todayReads.length
-        ? "למדת היום " + state.todayReads.length + " רעיונות"
-        : "כל רעיון הוא התחלה";
+  const progressLabel = getDailyProgressLabel(state.todayReads.length);
 
   return (
     <div className={"app-frame " + (player.episode ? "has-player" : "")}>

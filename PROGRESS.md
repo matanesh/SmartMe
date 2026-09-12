@@ -1,12 +1,12 @@
 # Progress and session handoff
 
-Updated: 2026-09-12 22:06 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
+Updated: 2026-09-13 02:36 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
 
 ## Current Status
 
 The complete early prototype is implemented under the working Hebrew brand **רגע**. It includes 40 knowledge cards across eight topics and ten formats, topic filtering, saved/interesting/share actions, local daily acknowledgments, three five-card learning sessions, and three clearly labelled silent audio demos with a persistent mini-player.
 
-The production static build, strict TypeScript check, ESLint, and all 11 targeted tests pass. Browser QA has verified mobile RTL at 390 px and 320 px, zero horizontal overflow at 320 px, save/like/read persistence after reload, quiz feedback, five-step completion, session resume after reload, audio pause, seek-to-end, 15-second skip, speed changes, and player persistence across views.
+The production static build, strict TypeScript check, ESLint, and all 19 targeted tests pass. Browser QA has verified mobile RTL at 390 px and 320 px, zero horizontal overflow at 320 px, save/like/read persistence after reload, quiz feedback, five-step completion, session resume after reload, audio pause, seek-to-end, 15-second skip, speed changes, and player persistence across views.
 
 **The requested prototype is complete and has a verified Vercel release.** README, PRODUCT, ARCHITECTURE, CONTENT_MODEL, TODO, and the browser/automated verification record in `QA.md` are complete. Production is available at `https://smartme-rega.vercel.app`. A new session should still inspect live local process state before launching another server.
 
@@ -120,6 +120,16 @@ The first complete editorial/source audit is documented in `CONTENT_AUDIT.md`. I
 - The rebuilt static app passed a dedicated 390×844 browser journey for all three exact source links, RTL metadata, no overflow, and no console/page errors. The history-map card was also visually inspected without clipping, overlap, broken labels, or obvious layout regression.
 - Verified: 18/18 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh Next.js 16.3.4 static build, 4/4 Playwright E2E tests, and local HTTP 200 (47,688 bytes).
 - Exact next action: prepare the bounded marketing-readiness package (positioning, launch copy, FAQ/privacy, screenshot/demo plan, organic launch plan, measurable pilot) without publishing or contacting users. Keep corpus expansion blocked on a second native-Hebrew reading.
+
+## Weekend mission cycle 8 — marketing readiness and truthful release
+
+- Added `MARKETING_READINESS.md`, a Hebrew, evidence-bounded package with positioning, launch and store-style copy, FAQ/privacy wording, a six-shot screenshot plan, a 90-second demo script, organic launch stages, and an eight-person pilot. The pilot now has an unprimed first task, explicit consent/data deletion, counterbalanced mode comparison, four measurable core thresholds, and one ordered Continue/Narrow/Pivot/Stop decision.
+- Independent marketing review found and drove correction of inaccurate `אין שרת` wording, an unsupported sharing phrase, participant-data risk, and ambiguous pilot fields/decision rules. The final fail-closed review passed with no material blocker. No outreach, publication, analytics, domain, or user data was created.
+- The review also identified a pre-existing desktop label that said `למדת היום` although the count records interaction acknowledgments, not comprehension. TDD RED failed because the truthful-label helper was absent; GREEN changed the label to `עצרת היום על …` while keeping the compact mobile label factual. `.hermes/` is now Git-ignored to protect local mission notes in this public repository.
+- Local verification passed: 19/19 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, Next.js 16.3.4 static build, and 4/4 Playwright E2E tests. A dedicated physical-click browser check at 390×844 and 1280×900 confirmed truthful labels, exact viewport width, and zero console/page errors; ignored screenshot evidence is `test-results/mobile-accessibility/truthful-progress-390.png` (62,505 bytes).
+- Verified Preview `https://smartme-rega-i0fdmp40z-mataneshs-projects.vercel.app` (`dpl_DjoKWpdxzZ63tDgTUi8RBQdijd1h`) passed HTTP 200, 4/4 E2E, and the dedicated label/overflow check, then was promoted.
+- Canonical Production `https://smartme-rega.vercel.app` now maps to Ready deployment `dpl_FxFBELrvzGhC45UqbNaupx4t2Uaj`; HTTP 200, 4/4 E2E, 390/1280 px truthful-label checks, no overflow, and no browser errors all passed.
+- Exact next action: produce the six local 390×844 screenshot candidates specified in `MARKETING_READINESS.md`, with reset state and no personal data; verify each against the shot contract but do not publish. Corpus expansion and outreach remain blocked on human review/approval.
 
 ## Persistent user instruction
 

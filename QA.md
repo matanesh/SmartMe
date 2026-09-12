@@ -5,7 +5,7 @@ Verified on 2026-09-11 in the local Windows development environment.
 ## Automated checks
 
 - `npm run typecheck`: passes strict TypeScript.
-- `npm test`: all 11 tests pass, including content graph integrity and corrupt/blocked storage behavior.
+- `npm test`: all 19 tests pass, including content/source contracts, truthful progress wording, content graph integrity, and corrupt/blocked storage behavior.
 - `npm run lint`: passes with no warnings or errors.
 - `npm run build`: produces a static `out/` export.
 - `git diff --check`: no whitespace errors.
@@ -100,3 +100,14 @@ This is a functional product prototype, not a production accessibility, security
 - Three source contracts were added first and failed against the restricted URLs. They pass after changing only the source labels and destinations; stable IDs and all card text remain unchanged.
 - At 390×844, all three revised cards rendered with the exact expected source link, `target="_blank"`, RTL Hebrew metadata, zero document overflow, and zero console/page errors. Ignored screenshot evidence: `test-results/mobile-accessibility/source-history-map-390.png`.
 - Full verification passed: 18/18 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh Next.js static build, 4/4 Playwright E2E tests, and local static HTTP 200 (47,688 bytes).
+
+## Marketing-readiness and truthful-progress gate — 2026-09-13
+
+- Added `MARKETING_READINESS.md`: one Hebrew package covering positioning, launch and store-style copy, FAQ/privacy language, a six-shot mobile screenshot plan, a 90-second demo, staged organic launch preparation, and an eight-person pilot with explicit measurement thresholds and ordered Continue/Narrow/Pivot/Stop rules. It authorizes no outreach or publication.
+- Independent review initially blocked approval on inaccurate infrastructure wording, a false screenshot-plan phrase, ambiguous pilot sequencing/decisions, participant-data handling, and the desktop daily label's unsupported `למדת` claim. The document and application were corrected; the final independent review passed with no material blocker.
+- TDD evidence for the application wording: the focused test first failed because the truthful-label helper did not exist, then passed after the desktop label changed from a learning claim to `עצרת היום על …`. The compact mobile label remains the factual `רעיון אחד היום`.
+- Public-repository safety: `.hermes/` is now ignored by Git as well as Vercel. Pilot raw responses, quotes, and identifiers are explicitly forbidden from this public repository and must be deleted from private research storage within 14 days.
+- Full local gates passed: 19/19 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh Next.js 16.3.4 static build, and 4/4 Playwright E2E tests.
+- Dedicated browser QA passed at 390×844 and 1280×900: physical acknowledgment click produced the truthful visible label at each layout, document width matched the viewport, and no console/page errors were captured. Ignored screenshot evidence: `test-results/mobile-accessibility/truthful-progress-390.png` (62,505 bytes).
+- Vercel Preview `https://smartme-rega-i0fdmp40z-mataneshs-projects.vercel.app` (`dpl_DjoKWpdxzZ63tDgTUi8RBQdijd1h`) reached Ready and passed HTTP 200, 4/4 E2E, and the dedicated label/overflow check. It was promoted to Production deployment `dpl_FxFBELrvzGhC45UqbNaupx4t2Uaj`.
+- Canonical Production `https://smartme-rega.vercel.app` maps to the new Ready deployment, returns HTTP 200, and passed 4/4 E2E plus the 390/1280 px label/overflow check with zero browser errors.
