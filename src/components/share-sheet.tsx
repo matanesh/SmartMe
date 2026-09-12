@@ -23,6 +23,10 @@ export function ShareSheet({
     dialogRef.current?.showModal();
   }, []);
 
+  function closeDialog() {
+    dialogRef.current?.close();
+  }
+
   async function copy() {
     try {
       await navigator.clipboard.writeText(draft.text);
@@ -38,7 +42,7 @@ export function ShareSheet({
         text: draft.text,
         url: draft.url,
       });
-      onClose();
+      closeDialog();
     } catch (error) {
       if (!(error instanceof Error && error.name === "AbortError"))
         setMessage("השיתוף לא נפתח. אפשר להעתיק את הרעיון מכאן.");
@@ -51,7 +55,7 @@ export function ShareSheet({
       aria-labelledby="share-heading"
       onClose={onClose}
       onClick={(event) => {
-        if (event.target === event.currentTarget) onClose();
+        if (event.target === event.currentTarget) closeDialog();
       }}
     >
       <div className="share-sheet-inner">
@@ -60,7 +64,7 @@ export function ShareSheet({
           <button
             className="icon-button"
             aria-label="סגירת חלונית השיתוף"
-            onClick={onClose}
+            onClick={closeDialog}
           >
             <X size={20} />
           </button>

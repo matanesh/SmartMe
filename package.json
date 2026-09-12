@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "tsx --test tests/*.test.ts",
-    "test:e2e": "node --test tests/interaction.e2e.mjs",
+    "test:e2e": "node --test tests/*.e2e.mjs",
     "format": "prettier --write ."
   },
   "dependencies": {

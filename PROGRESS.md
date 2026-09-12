@@ -1,6 +1,6 @@
 # Progress and session handoff
 
-Updated: 2026-09-12 00:47 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
+Updated: 2026-09-12 04:57 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
 
 ## Current Status
 
@@ -73,6 +73,15 @@ Source-based cards have citations and original prose, but a publication-level He
 - Promoted that verified build. Production: `https://smartme-rega.vercel.app`. Root plus all eight assets returned HTTP 200; the same 390 px Playwright interaction test passed with zero failures.
 - No custom domain, DNS, unrelated deployment, backend, secret, or user data was changed.
 - Exact next action: begin the mobile RTL/accessibility workstream with a focused 320/390 px audit, including 200% text and keyboard/focus evidence; avoid repeating the unchanged deployment gate.
+
+## Weekend mission cycle 3 — mobile targets and dialog focus
+
+- Reproduced two concrete accessibility defects against the live production export before changing code: visible topic controls were 40 px high, card actions were 42 px high, and closing Share by its close button left focus on `body`.
+- Added a regression suite first and observed 2/2 expected failures. The implementation now gives discover controls a 44 px minimum target, closes Share through the native dialog lifecycle so focus returns to its trigger, and extends the visible focus ring to textarea/disclosure controls.
+- `npm run test:e2e` now discovers all E2E files. It passes 3/3 tests across the existing critical journey and new 320/390 px RTL, overflow, reduced-motion, touch-target, skip-link, initial-dialog-focus, and focus-restoration checks.
+- The 320 px reflow result is equivalent to a 640 px CSS-width layout viewed at 200% browser zoom. Physical-device text-only enlargement and VoiceOver/TalkBack remain explicitly unverified.
+- Fresh verification passed: 11 Node tests, strict typecheck, ESLint, changed-file Prettier, static Next.js build, 3 E2E tests, browser console/page-error audit, and HTTP 200 from the restarted static server. Screenshot evidence remains local under ignored `test-results/mobile-accessibility/`.
+- Exact next action: continue the bounded mobile accessibility audit through Sessions, Audio, the active mini-player, and the expanded Share sheet at 320/390 px; test their target sizes, scrollability, focus behavior, and overflow before broader visual polish.
 
 ## Persistent user instruction
 

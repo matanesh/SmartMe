@@ -65,3 +65,13 @@ This is a functional product prototype, not a production accessibility, security
 - The 390 px Playwright interaction gate passed against that exact Preview: 1 test, zero failures.
 - The verified Preview was promoted to Production at `https://smartme-rega.vercel.app`. Independent root/asset checks passed there, followed by the same 390 px Playwright gate: 1 test, zero failures.
 - Deployment protection is disabled only for this isolated public-demo project. No unrelated Vercel project, custom domain, or DNS record was changed.
+
+## Mobile accessibility gate — 2026-09-12
+
+- A deterministic baseline at 320 px and 390 px found two source-level accessibility defects: topic chips were fixed at 40 px high, card actions at 42 px, and closing the share dialog by button removed it before the browser could restore focus.
+- Added `tests/mobile-accessibility.e2e.mjs` test-first. Both tests failed against the old production export for the expected target-size and focus-restoration reasons.
+- The corrected export passes 3 explicitly numbered E2E tests: the existing interaction journey plus mobile target/overflow and keyboard/dialog-focus coverage.
+- At both 320 px and 390 px, the tested discover controls are at least 44×44 px, the document remains exactly viewport width, `dir=rtl` and `lang=he` are present, reduced-motion rendering emits no browser errors, and the keyboard skip link moves focus to `main`.
+- The share dialog initially focuses its close control and now restores focus to the originating Share button after button dismissal by using the native dialog close lifecycle. Textareas and disclosure summaries also receive the shared visible focus ring.
+- Full-page evidence is generated in ignored local artifacts: `test-results/mobile-accessibility/discover-320.png` (310,920 bytes), `discover-390.png` (351,171 bytes), and `focus-restored-390.png` (59,598 bytes). The 320 px reflow check is the layout equivalent of viewing a 640 px CSS-width page at 200% browser zoom; physical-device text-only enlargement and VoiceOver/TalkBack remain separate follow-ups.
+- Post-fix verification passed: 11 Node tests, strict TypeScript, ESLint, Prettier on the changed source/test files, a fresh Next.js static build, 3 E2E tests, HTTP 200 from the restarted `serve out` process, no browser console/page errors, and visual desktop inspection with no obvious clipping or layout regression.

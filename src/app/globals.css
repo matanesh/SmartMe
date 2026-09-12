@@ -55,7 +55,9 @@ button {
 }
 button:focus-visible,
 a:focus-visible,
-input:focus-visible {
+input:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
   outline: 3px solid #aa462c;
   outline-offset: 4px;
 }
@@ -246,7 +248,7 @@ h1 {
   display: flex;
   align-items: center;
   gap: 6px;
-  min-height: 40px;
+  min-height: 44px;
   transition: all 0.2s;
 }
 .topic-tabs button:hover {
@@ -390,8 +392,8 @@ h1 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 42px;
-  min-height: 42px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 9px;
   gap: 7px;
   background: transparent;
@@ -418,7 +420,7 @@ h1 {
   align-items: center;
   background: transparent;
   color: #828679;
-  min-height: 42px;
+  min-height: 44px;
   padding: 6px;
 }
 .read-button.is-read {
