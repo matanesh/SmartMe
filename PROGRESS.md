@@ -1,6 +1,6 @@
 # Progress and session handoff
 
-Updated: 2026-09-12 13:27 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
+Updated: 2026-09-12 17:42 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
 
 ## Current Status
 
@@ -39,7 +39,7 @@ Final browser checks also passed for topic switching, load-more from eight to si
 
 No implementation blockers or unfinished requested features. The following are documented limits of this prototype, not requirements to build production infrastructure: real MP3 playback, physical iOS/Android QA, 200% text enlargement, a full screen-reader audit, and native OS share-sheet delivery remain follow-ups. The final 1440 px screenshot capture was unavailable in the preview tool; desktop DOM/overflow was checked and the earlier desktop composition was visually inspected.
 
-The first complete editorial/source audit is now documented in `CONTENT_AUDIT.md`. It covers all 40 cards and records a bounded pre-expansion queue: four source checks/corrections and three editorial revisions. A second native-Hebrew reader and manual browser checks for restricted institutional pages remain publication-level follow-ups.
+The first complete editorial/source audit is documented in `CONTENT_AUDIT.md`. Its first four-card correction batch is complete. A second native-Hebrew reader and manual browser checks for the three restricted institutional pages remain publication-level follow-ups.
 
 ## Earlier remote preview checkpoint — 2026-09-11 (superseded)
 
@@ -51,7 +51,7 @@ The first complete editorial/source audit is now documented in `CONTENT_AUDIT.md
 
 1. Fetch the latest `codex/hebrew-knowledge-prototype` branch and inspect live worktree/process state before continuing.
 2. Use `npm ci` if dependencies are absent. Check port 3000 before launching a local server.
-3. Continue the weekend mission with the bounded correction queue in `CONTENT_AUDIT.md`; do not add cards or repeat the completed mobile/Vercel gates before those corrections are verified.
+3. Continue the weekend mission with manual-browser source verification for Smithsonian, British Museum, and USGS. Do not add cards until those checks and a second native-Hebrew reading satisfy the audit gate.
 4. For new feature requests, keep local fixtures and adapter boundaries until product evidence calls for persistence or identity. Do not introduce backend/auth infrastructure merely to continue this prototype.
 5. Continue maintaining and pushing this handoff file at significant milestones. Do not merge the default branch without a request.
 
@@ -103,6 +103,14 @@ The first complete editorial/source audit is now documented in `CONTENT_AUDIT.md
 - Verification: deterministic inventory represented all 40 IDs exactly; 52.5% external-source coverage; no repeated exact eight-word sequence across cards; 11/11 existing Node tests passed; Prettier and `git diff --check` passed; the unchanged local static app remained HTTP 200. No production code, Vercel project, or deployment was changed.
 - Review scope: documentation-only, so the independent code-review gate is not applicable. The complete diff was reviewed for unsupported claims, public-repository privacy, secrets, and accidental scope expansion.
 - Exact next action: use TDD to correct only the first evidence-backed editorial batch (`ai-training`, `history-web`, `habit-quote`, `career-decisions`), preserving stable IDs and adding content-contract assertions before copy changes; keep the three restricted institutional sources as a separate human-browser verification task.
+
+## Weekend mission cycle 6 — first editorial correction batch
+
+- Verified current source evidence before editing: Hugging Face documents external retrieval and index updates without model retraining; NASA documents Apollo 11's launch date and free-return trajectory. Both pages returned HTTP 200.
+- TDD RED/GREEN covered four audited records. The app keeps all stable IDs and 40 cards while replacing the broad `ai-training` source, duplicate CERN story, repetitive `habit-quote`, and vague `career-decisions` hook.
+- The static production export was rebuilt and restarted on port 3000. A dedicated 390 px browser journey rendered all four revised cards, asserted both source destinations, found no horizontal overflow or escaped card, and captured no console/page errors.
+- Verified: 15/15 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh Next.js 16.3.4 static build, and 4/4 Playwright E2E tests. Local screenshot evidence is ignored at `test-results/mobile-accessibility/editorial-history-390.png`.
+- Exact next action: manually open and verify the Smithsonian octopus, British Museum Rosetta Stone, and USGS map-projection claims in a real browser; replace only a source that cannot support its exact claim. Do not expand the corpus yet.
 
 ## Persistent user instruction
 

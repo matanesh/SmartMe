@@ -84,3 +84,11 @@ This is a functional product prototype, not a production accessibility, security
 - The mobile mini-player now lays out its title above the control row. Tests prove its five buttons do not overlap, the title does not collide with them, and the player remains above the fixed bottom navigation at both widths.
 - Native disclosure markers are preserved. The final 320 px screenshot was visually inspected with no visible clipping, horizontal overflow, or player/navigation overlap.
 - Verification passed: 11 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh static production build, and 4 explicitly numbered E2E tests. Screenshot evidence is local and ignored under `test-results/mobile-accessibility/`.
+
+## First editorial correction gate — 2026-09-12
+
+- Added four content-contract tests before editing. All four failed against the audited baseline for the intended reasons: the broad `ai-training` source, duplicate CERN story, repetitive habits quote, and vague decision-journal hook.
+- Stable IDs and the 40-card count were preserved. `ai-training` now cites Hugging Face RAG documentation; `history-web` now presents NASA's Apollo 11 free-return trajectory; `habit-quote` presents non-streak binary tracking; and `career-decisions` has a concrete hook.
+- Both new external pages returned HTTP 200. Deterministic text checks found Hugging Face's external-retrieval/index-update support and NASA's launch-date/free-return support.
+- The rebuilt static app passed a dedicated 390×844 browser check for all four rendered cards, both exact source-link destinations, zero horizontal overflow, zero escaped cards, and no console/page errors. Ignored screenshot evidence: `test-results/mobile-accessibility/editorial-history-390.png`.
+- Full verification passed: 15/15 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh Next.js static build, and 4/4 Playwright E2E tests.

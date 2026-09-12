@@ -5,9 +5,97 @@ import { learningSessions, audioEpisodes } from "../src/data/collections";
 import { TOPICS } from "../src/lib/models";
 
 const ids = new Set(knowledgeItems.map((item) => item.id));
-test("editorial catalog has at least 35 unique Hebrew cards across all eight topics", () => {
-  assert.ok(knowledgeItems.length >= 35);
+const expectedCatalogIds = [
+  "brain-shortcuts",
+  "habit-two-minutes",
+  "venus-day",
+  "money-sunk-cost",
+  "career-feedback",
+  "ai-confidence",
+  "relations-listen",
+  "history-web",
+  "brain-anchor",
+  "brain-frame",
+  "brain-spotlight",
+  "brain-confirm",
+  "habit-environment",
+  "habit-stack",
+  "habit-reset",
+  "habit-quote",
+  "money-discount",
+  "money-time",
+  "money-unit",
+  "money-opportunity",
+  "career-next-step",
+  "career-done",
+  "career-question",
+  "career-decisions",
+  "ai-brief",
+  "ai-token",
+  "ai-compare",
+  "ai-training",
+  "relations-specific",
+  "relations-story",
+  "relations-boundary",
+  "relations-curious",
+  "science-sun",
+  "science-octopus",
+  "science-moon",
+  "science-correlation",
+  "history-web-free",
+  "history-stone",
+  "history-zero",
+  "history-map",
+];
+const itemById = (id: string) => {
+  const item = knowledgeItems.find((candidate) => candidate.id === id);
+  assert.ok(item, `missing editorial item: ${id}`);
+  return item;
+};
+
+test("ai-training cites retrieval documentation that supports current external knowledge", () => {
+  const item = itemById("ai-training");
+  assert.equal(
+    item.sourceUrl,
+    "https://huggingface.co/docs/transformers/model_doc/rag",
+  );
+  assert.match(item.source, /Hugging Face · RAG/);
+  assert.match(item.content, /משקלי מודל/);
+  assert.match(item.content, /אינו מתעדכן/);
+  assert.match(item.content, /מקור חיצוני/);
+  assert.match(item.content, /חיפוש או אחזור/);
+  assert.match(item.content, /שכבה נפרדת/);
+});
+
+test("history-web keeps its stable id while replacing the duplicate CERN story", () => {
+  const item = itemById("history-web");
+  assert.match(item.title, /אפולו 11/);
+  assert.equal(
+    item.sourceUrl,
+    "https://www.nasa.gov/history/apollo-11-mission-overview/",
+  );
+  assert.match(item.content, /16 ביולי 1969/);
+  assert.match(item.content, /מסלול חזרה חופשית/);
+  assert.match(item.content, /בלי להפעיל מנוע/);
+  assert.match(item.content, /משימת אפולו האחרונה/);
+  assert.doesNotMatch(item.content, /CERN|רשת/);
+});
+
+test("habit-quote offers tracking rather than another small-start message", () => {
+  const item = itemById("habit-quote");
+  assert.ok(item.tags.includes("מעקב"));
+  assert.match(item.content, /סימון/);
+  assert.doesNotMatch(item.content, /גרסה הקטנה|חמש דקות/);
+});
+
+test("career-decisions uses a concrete decision-journal hook", () => {
+  assert.match(itemById("career-decisions").title, /מה ישנה את דעתכם/);
+});
+
+test("editorial catalog keeps exactly the contracted 40 stable ids", () => {
+  assert.equal(knowledgeItems.length, 40);
   assert.equal(ids.size, knowledgeItems.length);
+  assert.deepEqual([...ids].sort(), [...expectedCatalogIds].sort());
   for (const topic of TOPICS)
     assert.ok(
       knowledgeItems.filter((item) => item.topic === topic).length >= 4,
