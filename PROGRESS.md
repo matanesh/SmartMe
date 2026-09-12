@@ -1,6 +1,6 @@
 # Progress and session handoff
 
-Updated: 2026-09-12 09:21 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
+Updated: 2026-09-12 13:27 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
 
 ## Current Status
 
@@ -39,7 +39,7 @@ Final browser checks also passed for topic switching, load-more from eight to si
 
 No implementation blockers or unfinished requested features. The following are documented limits of this prototype, not requirements to build production infrastructure: real MP3 playback, physical iOS/Android QA, 200% text enlargement, a full screen-reader audit, and native OS share-sheet delivery remain follow-ups. The final 1440 px screenshot capture was unavailable in the preview tool; desktop DOM/overflow was checked and the earlier desktop composition was visually inspected.
 
-Source-based cards have citations and original prose, but a publication-level Hebrew/source review remains a product experiment.
+The first complete editorial/source audit is now documented in `CONTENT_AUDIT.md`. It covers all 40 cards and records a bounded pre-expansion queue: four source checks/corrections and three editorial revisions. A second native-Hebrew reader and manual browser checks for restricted institutional pages remain publication-level follow-ups.
 
 ## Earlier remote preview checkpoint — 2026-09-11 (superseded)
 
@@ -51,7 +51,7 @@ Source-based cards have citations and original prose, but a publication-level He
 
 1. Fetch the latest `codex/hebrew-knowledge-prototype` branch and inspect live worktree/process state before continuing.
 2. Use `npm ci` if dependencies are absent. Check port 3000 before launching a local server.
-3. Continue the weekend mission with the source-backed content/editorial audit; do not repeat the completed mobile or Vercel gates unless source or deployment state changes.
+3. Continue the weekend mission with the bounded correction queue in `CONTENT_AUDIT.md`; do not add cards or repeat the completed mobile/Vercel gates before those corrections are verified.
 4. For new feature requests, keep local fixtures and adapter boundaries until product evidence calls for persistence or identity. Do not introduce backend/auth infrastructure merely to continue this prototype.
 5. Continue maintaining and pushing this handoff file at significant milestones. Do not merge the default branch without a request.
 
@@ -92,6 +92,17 @@ Source-based cards have citations and original prose, but a publication-level He
 - Verified: 11/11 Node tests, strict TypeScript, ESLint, Prettier, `git diff --check`, a fresh Next.js 16.3.4 static build, and 4/4 Playwright E2E tests. Local root remained HTTP 200. The 320 px player screenshot was visually inspected with no clipping or player/navigation collision; ignored evidence is in `test-results/mobile-accessibility/audio-player-{320,390}.png`.
 - Independent review found and prompted correction of overbroad test wording, an unproven backdrop point, loss of the native disclosure marker, and a weak dialog-scroll assertion. The final review passed with no security or logic blockers.
 - Exact next action: audit the 40-card corpus for Hebrew quality, duplication, source fidelity, citation validity, and weak hooks; preserve source URLs and write an evidence-backed editorial verdict before expanding content.
+
+## Weekend mission cycle 5 — 40-card editorial and source audit
+
+- Audited the live 40-card TypeScript corpus before changing any content. The inventory proves eight balanced five-card topics, all ten formats, 21 externally sourced cards, 19 explicitly editorial cards, and 18 unique source URLs.
+- Checked all 18 unique URLs with redirects: 12 returned HTTP 200 and six reached a valid destination that restricted the automated client with HTTP 403. All six DOI records were independently resolved through Crossref; publisher restrictions were not mislabeled as broken links.
+- Preserved claim-level evidence for key sources including the Tversky/Kahneman abstracts, NIST PDF, NASA Venus/Sun/Moon pages, CERN, and St Andrews. The audit explicitly separates verified source support from metadata-only or human-browser follow-up.
+- Added `CONTENT_AUDIT.md` (40/40 card matrix, quantitative balance, duplicate analysis, source availability, verdict, and ordered acceptance gate) and linked it from README.
+- Verdict: continue, but do not expand yet. First correct the overly broad `ai-training` citation, manually inspect Smithsonian/British Museum/USGS, replace the overlapping `history-web` and weak `habit-quote` cards, and sharpen the `career-decisions` hook.
+- Verification: deterministic inventory represented all 40 IDs exactly; 52.5% external-source coverage; no repeated exact eight-word sequence across cards; 11/11 existing Node tests passed; Prettier and `git diff --check` passed; the unchanged local static app remained HTTP 200. No production code, Vercel project, or deployment was changed.
+- Review scope: documentation-only, so the independent code-review gate is not applicable. The complete diff was reviewed for unsupported claims, public-repository privacy, secrets, and accidental scope expansion.
+- Exact next action: use TDD to correct only the first evidence-backed editorial batch (`ai-training`, `history-web`, `habit-quote`, `career-decisions`), preserving stable IDs and adding content-contract assertions before copy changes; keep the three restricted institutional sources as a separate human-browser verification task.
 
 ## Persistent user instruction
 
