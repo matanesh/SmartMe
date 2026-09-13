@@ -34,6 +34,7 @@ const expectedCatalogIds = [
   "ai-token",
   "ai-compare",
   "ai-training",
+  "ai-live-voice",
   "relations-specific",
   "relations-story",
   "relations-boundary",
@@ -121,8 +122,26 @@ test("history-map links to the accessible USGS projection manual page", () => {
   assert.match(item.content, /קטבים/);
 });
 
-test("editorial catalog keeps exactly the contracted 40 stable ids", () => {
-  assert.equal(knowledgeItems.length, 40);
+test("AI news discovery becomes an original primary-source-backed card", () => {
+  const item = itemById("ai-live-voice") as (typeof knowledgeItems)[number] & {
+    discoveredVia?: { name: string; postUrl: string };
+  };
+  assert.equal(
+    item.sourceUrl,
+    "https://developers.openai.com/api/docs/models/gpt-live-1",
+  );
+  assert.match(item.source, /OpenAI Developers/);
+  assert.match(item.content, /להאזין ולדבר באותו זמן/);
+  assert.match(item.content, /סוכן אחורי/);
+  assert.deepEqual(item.discoveredVia, {
+    name: "חדשות טכנולוגיה",
+    postUrl: "https://t.me/TechNewsHeb/11069",
+  });
+  assert.notEqual(item.sourceUrl, item.discoveredVia?.postUrl);
+});
+
+test("editorial catalog keeps exactly the contracted 41 stable ids", () => {
+  assert.equal(knowledgeItems.length, 41);
   assert.equal(ids.size, knowledgeItems.length);
   assert.deepEqual([...ids].sort(), [...expectedCatalogIds].sort());
   for (const topic of TOPICS)

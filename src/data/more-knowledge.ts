@@ -272,6 +272,23 @@ export const moreKnowledge: KnowledgeItem[] = [
     accent: "cream",
   },
   {
+    id: "ai-live-voice",
+    type: "did-you-know",
+    topic: "AI וטכנולוגיה",
+    title: "שיחה קולית שלא מחכה\nשתסיים לדבר.",
+    content:
+      "GPT‑Live 1 הוא מודל קולי מסוג full‑duplex: הוא יכול להאזין ולדבר באותו זמן, ולכן שיחה יכולה לכלול הפסקות וקטיעות בלי לחכות תמיד לסוף התור. לפי התיעוד, המודל יכול גם להעביר חשיבה ושימוש בכלים לסוכן אחורי. זו יכולת תקשורת בזמן אמת — לא הוכחה שהמערכת מבינה רגשות או שכל תשובה שלה נכונה.",
+    source: "OpenAI Developers · GPT‑Live 1",
+    sourceUrl: "https://developers.openai.com/api/docs/models/gpt-live-1",
+    discoveredVia: {
+      name: "חדשות טכנולוגיה",
+      postUrl: "https://t.me/TechNewsHeb/11069",
+    },
+    tags: ["קול", "זמן אמת", "AI"],
+    estimatedReadSeconds: 30,
+    accent: "peach",
+  },
+  {
     id: "relations-specific",
     type: "tip",
     topic: "יחסים",

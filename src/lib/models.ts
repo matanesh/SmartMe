@@ -28,6 +28,10 @@ export interface KnowledgeItem {
   topic: Topic;
   source: string;
   sourceUrl?: string;
+  discoveredVia?: {
+    name: string;
+    postUrl: string;
+  };
   author?: string;
   tags: string[];
   estimatedReadSeconds: number;
