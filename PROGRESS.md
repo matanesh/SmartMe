@@ -1,6 +1,6 @@
 # Progress and session handoff
 
-Updated: 2026-09-13 02:36 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
+Updated: 2026-09-13 06:45 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
 
 ## Current Status
 
@@ -131,6 +131,15 @@ The first complete editorial/source audit is documented in `CONTENT_AUDIT.md`. I
 - Canonical Production `https://smartme-rega.vercel.app` now maps to Ready deployment `dpl_FxFBELrvzGhC45UqbNaupx4t2Uaj`; HTTP 200, 4/4 E2E, 390/1280 px truthful-label checks, no overflow, and no browser errors all passed.
 - Verified implementation/package commit `5a59a21395262e5d29423eeb8b52e8690a98d557` (`[verified] prepare truthful marketing pilot`) was pushed to the approved branch.
 - Exact next action: produce the six local 390×844 screenshot candidates specified in `MARKETING_READINESS.md`, with reset state and no personal data; verify each against the shot contract but do not publish. Corpus expansion and outreach remain blocked on human review/approval.
+
+## Weekend mission cycle 9 — local marketing screenshot candidates
+
+- Produced all six screenshot states specified in `MARKETING_READINESS.md`, each from reset local storage at 390×844: Discover, Science filter, open reveal, session idea 2/5, exactly two saved ideas, and the expanded Share dialog.
+- Preserved 12 ignored PNGs (viewport crop plus full-page source for each), a JSON evidence manifest, the reusable local capture script, and a 3×2 contact sheet under `test-results/marketing-screenshots/`. These artifacts remain local and were not deployed, published, or committed to the public repository.
+- Programmatic checks passed for every state: exact state contract, Hebrew/RTL, viewport/document width 390 px, no unclipped horizontal escapes, and zero browser console/page errors. File inspection confirmed all crop dimensions are 390×844 and all images are non-empty; local SHA-256 checksums were generated.
+- The contact sheet was visually reviewed with no visible clipping, overlap, broken RTL, accidental focus outline, personal/test data, or bottom-navigation obstruction. The Share candidate intentionally exposes the accessible manual-copy area.
+- Local static and canonical Production roots both returned HTTP 200 with 47,688 bytes. Product source was unchanged, so the already-passing build suite was not repeated solely for a documentation/artifact cycle.
+- Exact next action: consolidate the final mission evidence and handoff from live Git/deployment/artifact state. Do not repeat unchanged screenshot/build checks; publication, outreach, second native-Hebrew review, and physical-device QA remain human gates.
 
 ## Persistent user instruction
 

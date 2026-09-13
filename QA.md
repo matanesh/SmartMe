@@ -111,3 +111,11 @@ This is a functional product prototype, not a production accessibility, security
 - Dedicated browser QA passed at 390×844 and 1280×900: physical acknowledgment click produced the truthful visible label at each layout, document width matched the viewport, and no console/page errors were captured. Ignored screenshot evidence: `test-results/mobile-accessibility/truthful-progress-390.png` (62,505 bytes).
 - Vercel Preview `https://smartme-rega-i0fdmp40z-mataneshs-projects.vercel.app` (`dpl_DjoKWpdxzZ63tDgTUi8RBQdijd1h`) reached Ready and passed HTTP 200, 4/4 E2E, and the dedicated label/overflow check. It was promoted to Production deployment `dpl_FxFBELrvzGhC45UqbNaupx4t2Uaj`.
 - Canonical Production `https://smartme-rega.vercel.app` maps to the new Ready deployment, returns HTTP 200, and passed 4/4 E2E plus the 390/1280 px label/overflow check with zero browser errors.
+
+## Local marketing screenshot gate — 2026-09-13
+
+- Generated the six contracted 390×844 states from a fresh local browser context each time: Discover top, active Science filter, open reveal, session idea 2/5, exactly two saved ideas, and the open Share dialog with copy/manual-copy controls.
+- Each state has a 390×844 viewport PNG and a full-page PNG under ignored `test-results/marketing-screenshots/`; 12 source images were produced, plus `manifest.json` and a 3×2 contact sheet. Nothing was published or uploaded.
+- The capture contract reset `rega.progress.v1` before each state, asserted the exact UI state, Hebrew/RTL metadata, `clientWidth === scrollWidth === 390`, no unclipped element escaping the viewport, and zero console/page errors. Horizontally scrollable topic chips were correctly treated as clipped carousel content rather than document overflow.
+- File inspection confirmed every crop is exactly 390×844 and every PNG is non-empty. SHA-256 checksums were generated locally. Visual review of the contact sheet found no broken RTL, clipping, overlap, accidental focus outline, test/personal data, or fixed-navigation obstruction.
+- Local static root and canonical Vercel Production both returned HTTP 200 with 47,688-byte app HTML during this gate. Product source was unchanged, so the existing unit/type/lint/build/E2E suite was not redundantly rerun under the mission anti-loop rule.
