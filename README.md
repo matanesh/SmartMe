@@ -88,6 +88,7 @@ Set `E2E_BASE_URL=https://example.vercel.app` to verify an HTTPS deployment inst
 - [CONTENT_MODEL.md](CONTENT_MODEL.md): schema, formats, sourcing, and editorial rules.
 - [CONTENT_AUDIT.md](CONTENT_AUDIT.md): evidence-backed 40-card editorial and source audit.
 - [MARKETING_READINESS.md](MARKETING_READINESS.md): Hebrew positioning, launch copy, FAQ/privacy language, screenshot and demo plans, and a measurable pilot.
+- [STATE_SUMMARY_FOR_NEW_SESSION.md](STATE_SUMMARY_FOR_NEW_SESSION.md): final mission evidence, human gates, and a fresh-session handoff.
 - [TODO.md](TODO.md): focused next product experiments.
 
 The cover illustration is an original AI-generated asset, served locally as a 67 KB WebP. Heebo is distributed by `@fontsource/heebo`; Lucide supplies the icons. Framework-generated `AGENTS.md` and `CLAUDE.md` retain the installed Next.js development guidance.

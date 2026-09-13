@@ -1,6 +1,6 @@
 # Progress and session handoff
 
-Updated: 2026-09-13 06:45 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
+Updated: 2026-09-13 10:47 Asia/Jerusalem. Branch: `codex/hebrew-knowledge-prototype`.
 
 ## Current Status
 
@@ -51,9 +51,10 @@ The first complete editorial/source audit is documented in `CONTENT_AUDIT.md`. I
 
 1. Fetch the latest `codex/hebrew-knowledge-prototype` branch and inspect live worktree/process state before continuing.
 2. Use `npm ci` if dependencies are absent. Check port 3000 before launching a local server.
-3. Continue the weekend mission with the marketing-readiness package while the second native-Hebrew reading remains a human follow-up. Do not expand the corpus until that reading satisfies the audit gate.
-4. For new feature requests, keep local fixtures and adapter boundaries until product evidence calls for persistence or identity. Do not introduce backend/auth infrastructure merely to continue this prototype.
-5. Continue maintaining and pushing this handoff file at significant milestones. Do not merge the default branch without a request.
+3. Run the consented pilot in `MARKETING_READINESS.md` and the second native-Hebrew editorial review before expanding the corpus. Keep participant records outside this public repository.
+4. Complete physical-device accessibility and native-share checks, recording device/browser/OS evidence separately from host and browser automation.
+5. Use the pilot's ordered decision rule before adding features. Preserve local fixtures and adapter boundaries until evidence calls for persistence or identity; do not introduce backend/auth infrastructure merely to continue the prototype.
+6. Read `STATE_SUMMARY_FOR_NEW_SESSION.md` for the final evidence matrix and copy-pasteable fresh-session prompt. Do not merge the default branch without a request.
 
 ## Weekend mission cycle 1 — interaction reliability
 
@@ -140,6 +141,16 @@ The first complete editorial/source audit is documented in `CONTENT_AUDIT.md`. I
 - The contact sheet was visually reviewed with no visible clipping, overlap, broken RTL, accidental focus outline, personal/test data, or bottom-navigation obstruction. The Share candidate intentionally exposes the accessible manual-copy area.
 - Local static and canonical Production roots both returned HTTP 200 with 47,688 bytes. Product source was unchanged, so the already-passing build suite was not repeated solely for a documentation/artifact cycle.
 - Exact next action: consolidate the final mission evidence and handoff from live Git/deployment/artifact state. Do not repeat unchanged screenshot/build checks; publication, outreach, second native-Hebrew review, and physical-device QA remain human gates.
+
+## Weekend mission cycle 10 — final evidence and durable handoff
+
+- Re-checked live state before writing the handoff: the working tree began clean; local HEAD, upstream, and remote branch matched `8cdb453ef8782575038e9a1d9b1a295575d13d07`; GitHub still reported the repository as public.
+- Verified the local static server belongs to this project and is the only listener on port 3000. Local and canonical Production roots each returned HTTP 200 with the same 47,688-byte Hebrew app HTML.
+- Vercel reported canonical Production deployment `dpl_FxFBELrvzGhC45UqbNaupx4t2Uaj` as Ready. No deployment, alias, custom domain, DNS, or unrelated project was changed in this documentation-only cycle.
+- Re-inventoried the ignored screenshot package: 12 non-empty source PNGs, six crops exactly 390×844, one 1242×1736 contact sheet, a manifest, and the reusable capture script. The manifest retains six passing exact-state/RTL/overflow/browser-error contracts.
+- Added `STATE_SUMMARY_FOR_NEW_SESSION.md`, a public-safe handoff with the delivered scope, separated evidence matrix, live Git/deployment checkpoint, human gates, ordered next actions, key files, constraints, and a copy-paste prompt. Added it to the README and reconciled the stale Next Steps section.
+- Product source and deployment were unchanged, so the already-passing build/E2E gates and screenshot capture were not repeated solely to create activity. Documentation verification and public-repository privacy review are the relevant gates for this slice.
+- Exact next action: no autonomous implementation remains without new evidence. Obtain the second native-Hebrew review, run consented pilot/physical-device checks, then use the documented decision rule before scheduling more product work.
 
 ## Persistent user instruction
 
