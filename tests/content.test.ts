@@ -1,5 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { knowledgeItems } from "../src/data/knowledge";
 import { learningSessions, audioEpisodes } from "../src/data/collections";
 import { TOPICS } from "../src/lib/models";
@@ -182,12 +184,21 @@ test("sessions have exactly five distinct, resolvable ideas", () => {
     for (const id of session.itemIds) assert.ok(ids.has(id), id);
   }
 });
-test("audio episodes reference real ideas and use explicit demo mode without a URL", () => {
+test("audio episodes distinguish verified recordings from an explicit silent demo", () => {
   assert.ok(audioEpisodes.length >= 3);
+  const realEpisodeUrls = new Map([
+    ["atomic", "/audio/atomic-he.mp3"],
+    ["biases", "/audio/biases-he.mp3"],
+  ]);
   for (const episode of audioEpisodes) {
     assert.ok(episode.durationSeconds > 0);
     assert.ok(episode.relatedItems.length > 0);
     for (const id of episode.relatedItems) assert.ok(ids.has(id), id);
-    assert.equal(episode.audioUrl, undefined);
+    assert.equal(episode.audioUrl, realEpisodeUrls.get(episode.id));
+    if (episode.audioUrl)
+      assert.ok(
+        existsSync(resolve(process.cwd(), "public", episode.audioUrl.slice(1))),
+        `missing static audio asset: ${episode.audioUrl}`,
+      );
   }
 });

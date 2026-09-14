@@ -19,7 +19,8 @@ export function AudioView({
         </div>
       </div>
       <p className="demo-notice">
-        הפרקים כרגע בתצוגת הדגמה, ללא קול. אפשר לנסות את הנגן.
+        שני פרקים זמינים עכשיו להאזנה. פרקים ללא סימון &quot;הקלטה&quot; הם
+        הדגמה שקטה.
       </p>
       {contentRepository.getEpisodes().map((episode, index) => (
         <article className="episode-card" key={episode.id}>
