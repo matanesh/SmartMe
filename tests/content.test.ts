@@ -5,6 +5,10 @@ import { resolve } from "node:path";
 import { knowledgeItems } from "../src/data/knowledge";
 import { learningSessions, audioEpisodes } from "../src/data/collections";
 import { TOPICS } from "../src/lib/models";
+import {
+  ONBOARDING_STORAGE_KEY,
+  parseOnboardingPreferences,
+} from "../src/lib/onboarding";
 
 const ids = new Set(knowledgeItems.map((item) => item.id));
 const expectedCatalogIds = [
@@ -201,4 +205,15 @@ test("audio episodes distinguish verified recordings from an explicit silent dem
         `missing static audio asset: ${episode.audioUrl}`,
       );
   }
+});
+
+test("onboarding preferences persist only valid topics and listening choices", () => {
+  assert.equal(ONBOARDING_STORAGE_KEY, "rega.onboarding.v1");
+  assert.deepEqual(
+    parseOnboardingPreferences(
+      JSON.stringify({ topics: ["מדע", "כסף", "לא נושא"], format: "listen" }),
+    ),
+    { topics: ["מדע", "כסף"], format: "listen" },
+  );
+  assert.equal(parseOnboardingPreferences("broken"), null);
 });

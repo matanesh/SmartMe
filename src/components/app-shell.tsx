@@ -11,6 +11,10 @@ import {
 } from "lucide-react";
 import { contentRepository } from "@/lib/content-repository";
 import { TOPICS, type KnowledgeItem, type Topic } from "@/lib/models";
+import {
+  parseOnboardingPreferences,
+  type OnboardingPreferences,
+} from "@/lib/onboarding";
 import { getDailyProgressLabel } from "@/lib/progress-label";
 import { useProgress } from "@/hooks/use-progress";
 import { useRoute } from "@/hooks/use-route";
@@ -22,6 +26,7 @@ import { SessionView } from "./session-view";
 import { AudioView } from "./audio-view";
 import { MiniPlayer } from "./mini-player";
 import { ShareSheet, type ShareDraft } from "./share-sheet";
+import { Onboarding } from "./onboarding";
 
 const headings: Record<
   string,
@@ -64,6 +69,17 @@ export function AppShell() {
   const [visibleCount, setVisibleCount] = useState(8);
   const [toast, setToast] = useState("");
   const [shareDraft, setShareDraft] = useState<ShareDraft | null>(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setShowOnboarding(
+        !parseOnboardingPreferences(
+          window.localStorage.getItem("rega.onboarding.v1"),
+        ),
+      );
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
   const toastTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
@@ -319,6 +335,15 @@ export function AppShell() {
       )}
       {shareDraft && (
         <ShareSheet draft={shareDraft} onClose={() => setShareDraft(null)} />
+      )}
+      {showOnboarding && (
+        <Onboarding
+          onComplete={(preferences: OnboardingPreferences) => {
+            setShowOnboarding(false);
+            setTopic(preferences.topics[0] ?? "all");
+            navigate("discover");
+          }}
+        />
       )}
     </div>
   );
