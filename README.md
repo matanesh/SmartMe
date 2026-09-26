@@ -34,11 +34,11 @@ Vercel previews use generated deployment URLs. The release gate checks the exact
 - Discover feed with immediate topic switching, eight-card batches, quizzes, reveals, linked sources, save, interesting, and share actions.
 - Saved ideas, likes, unique daily learning acknowledgments, and session progress stored in localStorage.
 - Three five-card learning sessions with previous/next navigation, resume, completion, and replay.
-- Three audio episodes with a mini-player that persists across views: play/pause, seek, skip 15 seconds, speed, and close.
+- Four verified audio episodes with a mini-player that persists across views: play/pause, seek, skip 15 seconds, speed, and close.
 - Native RTL layout, local Heebo fonts, mobile bottom navigation, responsive desktop rails, focus states, reduced motion, and empty/error states.
 - Shareable hash links to individual ideas. Browser Back works between views.
 
-**Audio is deliberately silent in this prototype.** Every demo is labelled `הדגמה · ללא קול`. Supplying an episode's `audioUrl` switches the player to a real HTML audio element. No audio is generated or fetched from a service.
+All four catalog entries point to local, checksum-recorded audio assets. The two newest episodes are short Hebrew two-host conversations generated with NotebookLM from original rights-reviewed source packets; they remain Preview-only until human listening QA is complete.
 
 ## Useful links in the app
 

@@ -27,7 +27,7 @@ export function AudioView({
         </div>
       </div>
       <p className="demo-notice">
-        שני פרקים אמיתיים זמינים עכשיו. לכל פרק יש תמליל מלא, מקורות ופרטי בדיקה
+        ארבעה פרקים אמיתיים זמינים עכשיו. לכל פרק יש תוכן, מקורות ופרטי בדיקה
         גלויים.
       </p>
       {contentRepository.getEpisodes().map((episode, index) => (
@@ -65,7 +65,7 @@ export function AudioView({
             </div>
             <details className="episode-transcript">
               <summary>
-                <FileText size={16} /> תמליל מלא ומקורות
+                <FileText size={16} /> תוכן הפרק ומקורות
               </summary>
               <div className="episode-trust">
                 <p className="episode-disclosure">

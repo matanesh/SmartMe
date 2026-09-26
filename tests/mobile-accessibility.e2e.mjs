@@ -348,7 +348,7 @@ test("sessions, audio, player, and expanded share sheet remain usable on narrow 
   }
 });
 
-test("both published episodes expose provenance and play real media in Chromium", async (t) => {
+test("all published episodes expose provenance and play real media in Chromium", async (t) => {
   await mkdir(evidenceDir, { recursive: true });
   const browser = await chromium.launch({ headless: true });
   t.after(() => browser.close());
@@ -369,8 +369,8 @@ test("both published episodes expose provenance and play real media in Chromium"
   await page.getByRole("heading", { name: "רגע להקשיב." }).waitFor();
 
   const cards = page.locator(".episode-card");
-  assert.equal(await cards.count(), 2);
-  for (let index = 0; index < 2; index += 1) {
+  assert.equal(await cards.count(), 4);
+  for (let index = 0; index < 4; index += 1) {
     const card = cards.nth(index);
     await card.locator(".episode-transcript summary").click();
     assert.ok((await card.locator(".episode-transcript-copy p").count()) >= 5);

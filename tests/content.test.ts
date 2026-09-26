@@ -190,10 +190,12 @@ test("sessions have exactly five distinct, resolvable ideas", () => {
   }
 });
 test("audio catalog exposes only verified recordings with trust metadata", () => {
-  assert.equal(audioEpisodes.length, 2);
+  assert.equal(audioEpisodes.length, 4);
   const realEpisodeUrls = new Map([
     ["atomic", "/audio/atomic-he.mp3"],
     ["biases", "/audio/biases-he.mp3"],
+    ["meditations-control", "/audio/meditations-control-he.m4a"],
+    ["pride-first-impression", "/audio/pride-first-impression-he.m4a"],
   ]);
   for (const episode of audioEpisodes) {
     assert.ok(episode.durationSeconds > 0);
