@@ -1,0 +1,52 @@
+{
+  "idea": {
+    "ideaId": "sample-biases-he",
+    "title": "איך מסגור ועיגון משפיעים על בחירות",
+    "brief": "פרק קצר ומקורי שמחבר בין שני מחקרים קלאסיים בלי להעתיק טקסט מקור.",
+    "language": "he-IL",
+    "requestedAt": "2026-09-26T00:00:00.000Z"
+  },
+  "sourcePacket": {
+    "packetId": "packet-sample-biases-he-v1",
+    "ideaId": "sample-biases-he",
+    "rightsReviewedAt": "2026-09-26T00:10:14.000Z",
+    "factCheckNotes": [
+      "הטענות מנוסחות מחדש; אין העתקת טקסט מהמאמרים.",
+      "יש לבדוק שמות, מספרים והגייה מול המקורות לפני הפקה."
+    ],
+    "sources": [
+      {
+        "sourceId": "tversky-kahneman-1974",
+        "title": "Judgment under Uncertainty: Heuristics and Biases",
+        "url": "https://doi.org/10.1126/science.185.4157.1124",
+        "publisher": "Science",
+        "retrievedAt": "2026-09-26T00:09:52.000Z",
+        "retrievalEvidenceUrl": "https://psycnet.apa.org/record/1975-06433-001",
+        "rightsStatus": "reference-only",
+        "adaptationAllowed": true,
+        "notes": "שימוש בעובדות כרפרנס בלבד; אין שכפול פרוזה מוגנת."
+      },
+      {
+        "sourceId": "tversky-kahneman-1981",
+        "title": "The Framing of Decisions and the Psychology of Choice",
+        "url": "https://doi.org/10.1126/science.7455683",
+        "publisher": "Science",
+        "retrievedAt": "2026-09-26T00:10:14.000Z",
+        "retrievalEvidenceUrl": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=7455683&retmode=xml",
+        "rightsStatus": "reference-only",
+        "adaptationAllowed": true,
+        "notes": "שימוש בעובדות כרפרנס בלבד; אין שכפול פרוזה מוגנת."
+      }
+    ]
+  },
+  "script": {
+    "scriptId": "script-sample-biases-he-v1",
+    "title": "איך מסגור ועיגון משפיעים על בחירות",
+    "language": "he-IL",
+    "exactNarration": "זהו תסריט קצר ומקורי לבדיקת התהליך בלבד. דמיינו שמציגים לכם מספר ראשון לפני החלטה: גם כשהמספר אינו רלוונטי, הוא עלול להפוך לנקודת ייחוס. עכשיו דמיינו שתי דרכים לתאר אותה תוצאה — כרווח או כהפסד. המחקר על מסגור מראה שהניסוח עשוי לשנות העדפות. לפני החלטה חשובה, נסו לקבוע טווח עצמאי ולנסח את האפשרויות בשתי הדרכים. אם הבחירה משתנה, עצרו ובדקו מה באמת השתנה: הנתונים, או רק המסגרת.",
+    "sourceIds": ["tversky-kahneman-1974", "tversky-kahneman-1981"],
+    "aiDisclosure": "הפרק, אם יופק, יוקרא בקול שנוצר באמצעות בינה מלאכותית.",
+    "targetDurationSeconds": 75,
+    "approvedForGeneration": true
+  }
+}

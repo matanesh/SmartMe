@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "test": "tsx --test tests/*.test.ts",
     "test:e2e": "node --test tests/*.e2e.mjs",
+    "podcast:sample": "tsx scripts/podcast_pipeline.ts",
     "format": "prettier --write ."
   },
   "dependencies": {

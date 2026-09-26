@@ -112,3 +112,15 @@ idea
 - Browser: שימש רק לבדיקת שער הכניסה של NotebookLM; התוצאה הייתה Google Sign-in.
 - עקבות מקומיים (מוחרגים מ־Git): `.hermes/podcast-books-24h/research/*.json`.
 - רמת ביטחון: **גבוהה** לגבי סטטוס ה־Podcast API, דרישות Enterprise, Preview והמחיר שנקראו בדפים; **בינונית** לגבי היעדר API צרכני (מסקנת חיפוש); **נמוכה/חסומה** לגבי זהות Alon Cohen ותמיכת Gemini-TTS בעברית בדגם המדויק.
+
+## 8. עדכון Cycle 3 — Gemini-TTS והכרעת ניסיון ההפקה (26.09.2026 UTC)
+
+בוצע חיפוש מתועד נוסף ונשלף הדף הרשמי [Gemini-TTS | Cloud Text-to-Speech](https://docs.cloud.google.com/text-to-speech/docs/gemini-tts), שעודכן לפי הדף ב־18.09.2026. הדף מאמת:
+
+- `gemini-2.5-flash-tts` תומך ב־single/multi-speaker ובפלט MP3, OGG_OPUS ו־LINEAR16.
+- עברית ישראלית (`he-IL`) מופיעה ברשימת השפות במצב **Preview**.
+- תחילת עבודה דורשת Google Cloud project, הפעלת Cloud Text-to-Speech, billing, authentication והרשאת `aiplatform.endpoints.predict` (למשל דרך `roles/aiplatform.user`).
+
+בדיקת הסביבה לא מצאה `gcloud`, משתני `GOOGLE*`/`GEMINI*`/`GCP*` או פרויקט מורשה. בהתאם לשער authorization ולאיסור להפעיל רכישה/billing, לא נשלחה קריאת API ולא נוצר קובץ אודיו. שתי שליפות אל `ai.google.dev` נעצרו על ידי שער האבטחה המקומי בגלל מדיניות TLD ולא אושרו בהיעדר המשתמש; הן אינן משמשות ראיה. עקבות החיפוש והשליפה המוצלחת נשמרו תחת `.hermes/podcast-books-24h/research/cycle3-*.json`.
+
+**הכרעה:** מסלול Cloud Gemini-TTS הוא fallback רשמי רלוונטי יותר מכפי שהיה ידוע ב־Cycle 1, כולל עברית ו־multi-speaker, אך הוא חסום תפעולית בפרויקט זה בגלל העדר authorization/billing מאומתים. ה־adapter ב־prototype נשאר `enabled: false` ונסגר fail-closed. אין פרק חדש לספור.
