@@ -4,6 +4,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
+  BookOpen,
   Bookmark,
   Check,
   Sparkles,
@@ -27,6 +28,7 @@ import { AudioView } from "./audio-view";
 import { MiniPlayer } from "./mini-player";
 import { ShareSheet, type ShareDraft } from "./share-sheet";
 import { Onboarding } from "./onboarding";
+import { QuickReadView } from "./quick-read-view";
 
 const headings: Record<
   string,
@@ -56,6 +58,11 @@ const headings: Record<
     title: "רעיון ששווה רגע.",
     subtitle: "לפעמים רעיון אחד פותח כיוון חדש.",
     eyebrow: "משהו קטן לדעת",
+  },
+  quickread: {
+    title: "כמה דקות עם רעיון גדול.",
+    subtitle: "עיבוד מקורי, מקור גלוי ודרך אחת לנסות את הרעיון.",
+    eyebrow: "קריאה מהירה, בלי קיצורי דרך באמון",
   },
 };
 
@@ -137,6 +144,9 @@ export function AppShell() {
     );
   const detailItem =
     view === "idea" ? contentRepository.getItem(detailId) : undefined;
+  const quickRead =
+    view === "quickread" ? contentRepository.getQuickRead(detailId) : undefined;
+  const featuredQuickRead = contentRepository.getQuickReads()[0];
   const progressLabel = getDailyProgressLabel(state.todayReads.length);
 
   return (
@@ -224,6 +234,36 @@ export function AppShell() {
                     </button>
                   ))}
                 </div>
+                {view === "discover" &&
+                  topic === "all" &&
+                  featuredQuickRead && (
+                    <section
+                      className="quick-read-promo"
+                      aria-labelledby="quick-read-promo-title"
+                    >
+                      <div>
+                        <span className="quick-read-promo-label">
+                          <BookOpen size={15} /> קריאה מהירה ·{" "}
+                          {featuredQuickRead.estimatedMinutes} דקות
+                        </span>
+                        <h2 id="quick-read-promo-title">
+                          {featuredQuickRead.title}
+                        </h2>
+                        <p>{featuredQuickRead.dek}</p>
+                        <small>
+                          מקור בנחלת הכלל · עיבוד עברי מקורי · המקורות גלויים
+                        </small>
+                      </div>
+                      <button
+                        className="dark-button"
+                        onClick={() =>
+                          navigate(`quickread/${featuredQuickRead.id}`)
+                        }
+                      >
+                        לקריאה <ArrowLeft size={17} />
+                      </button>
+                    </section>
+                  )}
                 <div className="feed-heading">
                   <h2>
                     {view === "saved"
@@ -322,6 +362,21 @@ export function AppShell() {
                 )}
               </div>
             )}
+            {view === "quickread" &&
+              (quickRead ? (
+                <QuickReadView quickRead={quickRead} navigate={navigate} />
+              ) : (
+                <div className="empty-state">
+                  <h2>הקריאה הזאת לא נמצאה.</h2>
+                  <p>אולי הקישור השתנה. בפיד מחכים עוד רעיונות.</p>
+                  <button
+                    className="primary-button"
+                    onClick={() => navigate("discover")}
+                  >
+                    חזרה לגילויים <ArrowLeft size={17} />
+                  </button>
+                </div>
+              ))}
           </main>
           <DiscoverySidebar navigate={navigate} />
         </div>

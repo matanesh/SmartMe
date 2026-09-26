@@ -4,6 +4,7 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { knowledgeItems } from "../src/data/knowledge";
 import { learningSessions, audioEpisodes } from "../src/data/collections";
+import { quickReads } from "../src/data/quick-reads";
 import { TOPICS } from "../src/lib/models";
 import {
   ONBOARDING_STORAGE_KEY,
@@ -204,6 +205,30 @@ test("audio episodes distinguish verified recordings from an explicit silent dem
         existsSync(resolve(process.cwd(), "public", episode.audioUrl.slice(1))),
         `missing static audio asset: ${episode.audioUrl}`,
       );
+  }
+});
+
+test("quick reads expose edition-level rights evidence and original Hebrew provenance", () => {
+  assert.ok(quickReads.length >= 1);
+  for (const quickRead of quickReads) {
+    assert.match(quickRead.title, /[א-ת]/);
+    assert.ok(
+      quickRead.estimatedMinutes >= 2 && quickRead.estimatedMinutes <= 10,
+    );
+    assert.ok(quickRead.sections.length >= 3);
+    assert.match(quickRead.editorialDisclosure, /עיבוד עברי מקורי/);
+    assert.match(quickRead.editorialDisclosure, /לא תרגום/);
+    assert.equal(quickRead.rights.status, "public-domain-source");
+    assert.match(quickRead.rights.reviewedAt, /^\d{4}-\d{2}-\d{2}$/);
+    assert.ok(quickRead.rights.jurisdictionsReviewed.length >= 2);
+    assert.ok(
+      quickRead.sources.some((source) => source.role === "source-edition"),
+    );
+    assert.ok(
+      quickRead.sources.some((source) => source.role === "rights-policy"),
+    );
+    for (const source of quickRead.sources)
+      assert.equal(new URL(source.url).protocol, "https:");
   }
 });
 

@@ -1,5 +1,6 @@
 import { knowledgeItems } from "@/data/knowledge";
 import { audioEpisodes, learningSessions } from "@/data/collections";
+import { quickReads } from "@/data/quick-reads";
 import type { KnowledgeItem, Topic } from "./models";
 
 // The UI asks this repository for content. A remote adapter can replace it later.
@@ -13,4 +14,7 @@ export const contentRepository = {
   getSession: (id: string) =>
     learningSessions.find((session) => session.id === id),
   getEpisodes: () => audioEpisodes,
+  getQuickReads: () => quickReads,
+  getQuickRead: (id: string) =>
+    quickReads.find((quickRead) => quickRead.id === id),
 };
