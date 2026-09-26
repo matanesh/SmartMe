@@ -1,81 +1,71 @@
 # SmartMe / רגע — state summary for a new session
 
-- Updated: 2026-09-13 10:47 Asia/Jerusalem
+- Updated: 2026-09-26 15:24 IDT
+- Mission: 24-hour podcast automation + rights-safe quick-reading slice
 - Branch: `codex/hebrew-knowledge-prototype`
-- Release: [smartme-rega.vercel.app](https://smartme-rega.vercel.app)
+- Repository: <https://github.com/matanesh/SmartMe/tree/codex/hebrew-knowledge-prototype>
+- Production: <https://smartme-rega.vercel.app> — healthy, but still deployed from older commit `c475227`; the current mission work is not deployed.
 
-## Mission and outcome
+## Delivered on the branch
 
-The weekend mission turned the Hebrew micro-learning prototype **רגע** into a verified mobile-first release candidate for user testing. The bounded product scope is complete: interaction reliability, an isolated Vercel release, mobile RTL/accessibility improvements, an evidence-backed content audit and correction pass, a marketing-readiness package, and six local screenshot candidates.
+1. **Two real Hebrew audio episodes remain app-connected.** The current catalog contains only `atomic-he.mp3` and `biases-he.mp3`, with full transcripts, source links, review dates, checksums and honest disclosure that the legacy voice provider/model is unknown.
+2. **A fail-closed podcast pipeline prototype** models deterministic job IDs, source/rights gates, provider authorization, media QA, approval and publishing states. Its sample run ends at `generation_blocked`; it does not generate or publish audio.
+3. **One rights-safe quick read** is implemented: an original Hebrew editorial synthesis based on the George Long edition of Marcus Aurelius, with edition-level provenance, rights basis, three content sections and an action.
+4. **An eight-candidate rights ledger** distinguishes one pilot-ready edition from held or further-check candidates. It explicitly forbids treating a modern Hebrew translation, cover, illustration or recording as public domain merely because the source work is old.
+5. **Original RTL product direction and integrated UX** connect discovery, quick reading and the real-audio library without copying Blinkist or Deepstash trade dress. The current branch removes the silent simulated audio item and exposes trust metadata.
 
-The project remains intentionally simple: a static Next.js export with local fixtures and device-local progress. There is no backend, account system, analytics collection, payment flow, recommendation model, or real user data.
+## Google / NotebookLM verdict
 
-## What is delivered
+- Consumer NotebookLM required Google sign-in and no documented consumer generation/export API was verified. It remains a manual route; no browser automation or undocumented endpoint was used.
+- Gemini Notebook Enterprise Audio Overview has an official Preview API, but requires Enterprise setup, licenses and IAM; autonomous media export was not proven for this project.
+- The standalone Podcast API is deprecated and is not allowlisting new customers.
+- Google Cloud Gemini TTS officially lists `he-IL`, single/multi-speaker output and MP3/OGG/LINEAR16 in Preview, but this environment had no authorized Cloud project, enabled billing/API credentials or IAM. No generation request was sent.
+- Result: **zero new Google/NotebookLM episodes**. Do not call the manual kits or the blocked pipeline output episodes.
 
-- 40 Hebrew cards across eight topics and ten formats, with source links where claims depend on external evidence.
-- Discover, topic filters, load-more, Saved, Interesting, sharing, acknowledgments, quizzes, reveals, direct idea links, and browser history.
-- Three resumable five-card sessions and three clearly labelled silent audio demonstrations with a persistent mini-player.
-- Mobile RTL layouts at 320 px and 390 px, 44 px targets for the audited controls, reduced-motion behavior, keyboard skip/focus handling, and accessible Share-dialog dismissal.
-- `CONTENT_AUDIT.md`: a 40/40 editorial and source review, including the completed correction batches.
-- `MARKETING_READINESS.md`: positioning, launch/store copy, FAQ/privacy language, screenshot plan, demo script, and a measurable eight-person pilot.
-- Six 390×844 screenshot candidates plus full-page sources and a contact sheet under ignored local `test-results/marketing-screenshots/`. These assets were not published or committed.
+## Final verification evidence
 
-## Evidence matrix
+- `npm test`: 26/26 passed.
+- `npm run test:e2e`: 6/6 passed against the fresh static production build; both MP3s loaded, advanced playback, sought to 30 seconds, and exposed transcripts/sources in Chromium.
+- `npm run lint`: passed.
+- `npm run typecheck`: passed.
+- `npm run build`: passed with Next.js 16.3.4; `/` and `/_not-found` were statically generated.
+- `git diff --check`: passed.
+- Media: 140.304 s / 561,453 bytes and 151.944 s / 608,013 bytes; both mono MP3, 24 kHz, non-silent, and checksums match the catalog and pilot copies.
+- Mobile QA: 320 px and 390 px flows, 44 px audited targets, keyboard focus, 200% zoom-equivalent reflow, real playback and zero captured browser errors passed.
 
-| Area                   | Verified evidence                                                                                                                    | Current status                               |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------- |
-| Unit/content contracts | 19 explicitly numbered Node tests passed in the last source-changing release gate                                                    | Passing at release commit                    |
-| Type and lint          | Strict TypeScript and ESLint passed in the last source-changing release gate                                                         | Passing at release commit                    |
-| Production build       | Next.js 16.3.4 static export completed in the last source-changing release gate                                                      | Passing at release commit                    |
-| Browser journeys       | 4 explicitly numbered Playwright E2E tests passed locally, on Preview, and on Production in the last source-changing release gate    | Passing at release commit                    |
-| Mobile layout          | 320/390 px RTL, overflow, targets, dialog focus, Sessions, Audio, and mini-player checks                                             | Passing for tested flows                     |
-| Content                | 40/40 audit; seven bounded card/source corrections completed with contract tests                                                     | Ready for a second native-Hebrew review      |
-| Marketing              | Hebrew copy, privacy/FAQ, demo, launch stages, and pilot thresholds documented                                                       | Ready for internal review; not published     |
-| Screenshot candidates  | Six exact states; all crop images are 390×844; manifest reports RTL, exact state, no overflow, and no browser errors                 | Present locally only                         |
-| Live local preview     | `serve out --listen 3000` owned by this project; root returned HTTP 200 and 47,688 bytes at this checkpoint                          | Healthy                                      |
-| Vercel Production      | Canonical root returned HTTP 200 and 47,688 bytes; Vercel reported Production deployment `dpl_FxFBELrvzGhC45UqbNaupx4t2Uaj` as Ready | Healthy                                      |
-| Git                    | Local HEAD, upstream, and remote branch matched `8cdb453ef8782575038e9a1d9b1a295575d13d07` before this handoff edit                  | Clean and synchronized before handoff commit |
+## Git and deployment truth
 
-The detailed commands, browser flows, limits, and historical evidence are in `QA.md` and `PROGRESS.md`. This handoff does not combine free-form browser contracts with the numbered Node or E2E test totals.
+Mission commits after `48f49ae`:
 
-## Human gates and known limits
+- `3111e94` — official Google automation research
+- `acbffdc` — original RTL product direction
+- `aa44bd4` — fail-closed podcast pipeline
+- `c91dfc7` — rights-safe quick-read pilot
+- `fb048cb` — trusted audio + quick-read integration
 
-These are not unfinished implementation defects:
+The branch was pushed and matched `origin/codex/hebrew-knowledge-prototype` at `fb048cb` before the final handoff-only cleanup commit. Vercel production is READY and returns HTTP 200, but its deployment metadata points to `c475227` from 2026-09-14. It still shows the older catalog with a silent demo episode, so it is **not evidence of the current mission UX**. No preview or production deployment of the mission branch was made.
 
-1. A second native-Hebrew reader should review all 40 cards before corpus expansion or broad publication.
-2. Physical iOS and Android checks remain for VoiceOver/TalkBack, text-only enlargement, browser source-link behavior, and native OS sharing.
-3. Audio is deliberately silent. A rights-cleared Hebrew MP3 is required before testing real decoding, interruptions, background playback, or retention.
-4. The marketing package and screenshots are preparation artifacts only. No outreach, public campaign, app-store submission, custom domain, or DNS change has occurred.
-5. Device-local state does not sync between origins or devices; this is an explicit prototype trade-off, not hidden personalization.
+## Blockers and limits
+
+- No authorized Google Cloud/Notebook Enterprise setup; no autonomous Google episode.
+- Claude Code was not logged in; the exact requested Opus 5.5 run failed before model use. No Claude critique occurred.
+- Legacy TTS provider/model provenance cannot be reconstructed from the existing MP3 artifacts.
+- No manual screen-reader or physical iOS/Android pass; no numeric contrast/forced-colors audit.
+- The rights catalog is an operational filter, not legal advice; every added edition/translation/artwork/recording needs a separate gate.
 
 ## Exact next actions
 
-1. Run the eight-person pilot in `MARKETING_READINESS.md` only after obtaining participant consent and choosing private research storage outside this public repository.
-2. Complete the second native-Hebrew editorial/source review; correct weak items before adding new cards.
-3. Perform the physical-device accessibility/share checks above and record device/browser/OS evidence separately.
-4. Apply the ordered Continue / Narrow / Pivot / Stop rule from the pilot before adding backend, analytics, sync, notifications, or more content.
+1. Provision or identify an already-authorized Google Cloud project, verify billing/IAM/terms, then generate one private candidate through the official Gemini TTS route and run the complete media/transcript/browser QA ladder before approval.
+2. Create a preview deployment from the current branch, run the same six E2E flows on its URL, and promote only after a human review of the quick read and trust disclosures.
+3. Expand the library by one edition at a time: complete edition/asset rights evidence, obtain a second native-Hebrew editorial review, and add physical-device screen-reader/playback testing.
 
-Do not repeat unchanged build or screenshot checks merely to produce activity. Re-run the relevant gate only after source changes, deployment changes, a failed check, or new user feedback.
+## Read first
 
-## Read these files first
+1. `.hermes/podcast-books-24h/GOAL.md`
+2. `.hermes/podcast-books-24h/PROGRESS.md`
+3. `docs/PODCAST_AUTOMATION_RESEARCH.md`
+4. `docs/PODCAST_PIPELINE_SPEC.md`
+5. `docs/RIGHTS_SAFE_READING_CATALOG.md`
+6. `docs/PRODUCT_DESIGN_DIRECTION_HE.md`
 
-1. `PRODUCT.md` — product truth and explicit exclusions.
-2. `PROGRESS.md` — chronological implementation and deployment ledger.
-3. `QA.md` — exact automated, browser, mobile, content, and release evidence.
-4. `CONTENT_AUDIT.md` — source/editorial findings and publication gate.
-5. `MARKETING_READINESS.md` — approved preparation package and pilot contract.
-6. `TODO.md` — evidence-driven follow-ups rather than scheduled features.
-7. `ARCHITECTURE.md` and `CONTENT_MODEL.md` — technical and editorial boundaries.
-
-## Constraints to preserve
-
-- Work on `codex/hebrew-knowledge-prototype`; do not merge the default branch without an explicit request.
-- The GitHub repository is public: never commit credentials, personal data, participant responses, private infrastructure details, or local mission logs.
-- Preserve Hebrew, RTL, calm non-gamified UX, honest non-personalized wording, stable content IDs, and the static/local-first architecture until product evidence justifies change.
-- Do not create backend/auth/analytics/payment infrastructure speculatively.
-- Do not publish, contact users, purchase services, change custom domains/DNS, or alter unrelated Vercel projects without explicit authorization.
-- Inspect live Git, process, and deployment state before trusting this handoff.
-
-## Copy-paste prompt for a fresh session
-
-> Continue SmartMe / רגע from `STATE_SUMMARY_FOR_NEW_SESSION.md` on branch `codex/hebrew-knowledge-prototype`. First inspect live Git, process, deployment, `PRODUCT.md`, `PROGRESS.md`, `QA.md`, `CONTENT_AUDIT.md`, and `MARKETING_READINESS.md`. Select only the highest-priority evidence-backed next slice. Preserve the public-repository privacy boundaries and static/local-first architecture. Use root-cause investigation and test-first changes, verify real behavior, and do not publish, contact users, merge, alter DNS, or touch unrelated projects without explicit approval.
+Do not restart the completed recurring mission, use undocumented Google endpoints, deploy the current branch without preview QA, or claim a new episode without real media passing every gate.
