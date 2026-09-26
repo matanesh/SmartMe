@@ -49,9 +49,16 @@ export interface AudioEpisode {
   description: string;
   topic: Topic;
   durationSeconds: number;
-  audioUrl?: string;
+  audioUrl: string;
   relatedItems: string[];
   accent: "peach" | "sage" | "lavender";
+  publishedAt: string;
+  reviewedAt: string;
+  voiceDisclosure: string;
+  editorialDisclosure: string;
+  checksumSha256: string;
+  transcript: string[];
+  sources: Array<{ label: string; url: string }>;
 }
 export interface LearningSession {
   id: string;

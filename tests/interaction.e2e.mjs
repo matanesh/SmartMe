@@ -17,7 +17,12 @@ test("critical controls work and saved progress survives reload at 390px", async
   page.on("pageerror", (error) => errors.push(String(error)));
 
   await page.goto(baseUrl, { waitUntil: "networkidle" });
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() =>
+    localStorage.setItem(
+      "rega.onboarding.v1",
+      JSON.stringify({ topics: ["פסיכולוגיה"], format: "both" }),
+    ),
+  );
   await page.reload({ waitUntil: "networkidle" });
 
   const firstSave = page.getByRole("button", { name: /^שמירת רעיון:/ }).first();

@@ -27,7 +27,12 @@ async function openPage(browser, width, withNativeShare = false) {
     if (message.type() === "error") errors.push(message.text());
   });
   await page.goto(baseUrl, { waitUntil: "networkidle" });
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() =>
+    localStorage.setItem(
+      "rega.onboarding.v1",
+      JSON.stringify({ topics: ["פסיכולוגיה"], format: "both" }),
+    ),
+  );
   await page.reload({ waitUntil: "networkidle" });
   return { context, errors, page };
 }
@@ -341,4 +346,104 @@ test("sessions, audio, player, and expanded share sheet remain usable on narrow 
     });
     await context.close();
   }
+});
+
+test("both published episodes expose provenance and play real media in Chromium", async (t) => {
+  await mkdir(evidenceDir, { recursive: true });
+  const browser = await chromium.launch({ headless: true });
+  t.after(() => browser.close());
+  const { context, errors, page } = await openPage(browser, 390);
+  t.after(() => context.close());
+
+  await page.evaluate(() =>
+    localStorage.setItem(
+      "rega.onboarding.v1",
+      JSON.stringify({ topics: ["פסיכולוגיה"], format: "both" }),
+    ),
+  );
+  await page.reload({ waitUntil: "networkidle" });
+  await page
+    .getByRole("navigation", { name: "ניווט בנייד" })
+    .getByRole("button", { name: "להקשיב" })
+    .click();
+  await page.getByRole("heading", { name: "רגע להקשיב." }).waitFor();
+
+  const cards = page.locator(".episode-card");
+  assert.equal(await cards.count(), 2);
+  for (let index = 0; index < 2; index += 1) {
+    const card = cards.nth(index);
+    await card.locator(".episode-transcript summary").click();
+    assert.ok((await card.locator(".episode-transcript-copy p").count()) >= 5);
+    assert.ok((await card.locator(".episode-trust a").count()) >= 3);
+
+    await card.getByRole("button", { name: /^ניגון / }).click();
+    const player = page.getByRole("region", { name: "נגן שמע" });
+    const media = player.locator("audio");
+    await media.waitFor({ state: "attached" });
+    await page.waitForFunction(
+      () => {
+        const audio = document.querySelector(".mini-player audio");
+        return audio instanceof HTMLAudioElement && audio.readyState >= 1;
+      },
+      undefined,
+      { timeout: 10_000 },
+    );
+    const loaded = await media.evaluate((audio) => ({
+      duration: audio.duration,
+      paused: audio.paused,
+      readyState: audio.readyState,
+    }));
+    assert.ok(Number.isFinite(loaded.duration) && loaded.duration > 120);
+    assert.ok(loaded.readyState >= 1);
+    assert.equal(loaded.paused, false);
+
+    await page.waitForTimeout(750);
+    assert.ok((await media.evaluate((audio) => audio.currentTime)) > 0);
+    await player.getByRole("slider", { name: "מיקום בפרק" }).fill("30");
+    assert.ok(
+      Math.abs((await media.evaluate((audio) => audio.currentTime)) - 30) < 1,
+    );
+    if (index === 0) {
+      await player.getByRole("button", { name: "מהירות ניגון 1" }).click();
+      assert.equal(await media.evaluate((audio) => audio.playbackRate), 1.25);
+    }
+    await player.getByRole("button", { name: "סגירת הנגן" }).click();
+  }
+
+  assert.deepEqual(errors, []);
+  await page.screenshot({
+    fullPage: true,
+    path: `${evidenceDir}/audio-provenance-playback-390.png`,
+  });
+});
+
+test("discovery and quick read reflow at a 200 percent zoom equivalent", async (t) => {
+  const browser = await chromium.launch({ headless: true });
+  t.after(() => browser.close());
+  const { context, errors, page } = await openPage(browser, 640);
+  t.after(() => context.close());
+  await page.evaluate(() =>
+    localStorage.setItem(
+      "rega.onboarding.v1",
+      JSON.stringify({ topics: ["פסיכולוגיה"], format: "both" }),
+    ),
+  );
+  await page.reload({ waitUntil: "networkidle" });
+  await page.evaluate(() => {
+    document.documentElement.style.zoom = "2";
+  });
+
+  let dimensions = await page.evaluate(() => ({
+    clientWidth: document.documentElement.clientWidth,
+    scrollWidth: document.documentElement.scrollWidth,
+  }));
+  assert.equal(dimensions.scrollWidth, dimensions.clientWidth);
+  await page.getByRole("button", { name: /לקריאה · 3 דקות/ }).click();
+  await page.getByRole("heading", { name: /מה בשליטתך/ }).waitFor();
+  dimensions = await page.evaluate(() => ({
+    clientWidth: document.documentElement.clientWidth,
+    scrollWidth: document.documentElement.scrollWidth,
+  }));
+  assert.equal(dimensions.scrollWidth, dimensions.clientWidth);
+  assert.deepEqual(errors, []);
 });

@@ -189,22 +189,30 @@ test("sessions have exactly five distinct, resolvable ideas", () => {
     for (const id of session.itemIds) assert.ok(ids.has(id), id);
   }
 });
-test("audio episodes distinguish verified recordings from an explicit silent demo", () => {
-  assert.ok(audioEpisodes.length >= 3);
+test("audio catalog exposes only verified recordings with trust metadata", () => {
+  assert.equal(audioEpisodes.length, 2);
   const realEpisodeUrls = new Map([
     ["atomic", "/audio/atomic-he.mp3"],
     ["biases", "/audio/biases-he.mp3"],
   ]);
   for (const episode of audioEpisodes) {
     assert.ok(episode.durationSeconds > 0);
+    assert.match(episode.publishedAt, /^\d{4}-\d{2}-\d{2}$/);
+    assert.match(episode.reviewedAt, /^\d{4}-\d{2}-\d{2}$/);
+    assert.match(episode.checksumSha256, /^[a-f0-9]{64}$/);
+    assert.ok(episode.transcript.length >= 5);
+    assert.ok(episode.sources.length >= 3);
+    assert.ok(episode.voiceDisclosure.length > 20);
+    assert.ok(episode.editorialDisclosure.length > 20);
     assert.ok(episode.relatedItems.length > 0);
     for (const id of episode.relatedItems) assert.ok(ids.has(id), id);
     assert.equal(episode.audioUrl, realEpisodeUrls.get(episode.id));
-    if (episode.audioUrl)
-      assert.ok(
-        existsSync(resolve(process.cwd(), "public", episode.audioUrl.slice(1))),
-        `missing static audio asset: ${episode.audioUrl}`,
-      );
+    assert.ok(
+      existsSync(resolve(process.cwd(), "public", episode.audioUrl.slice(1))),
+      `missing static audio asset: ${episode.audioUrl}`,
+    );
+    for (const source of episode.sources)
+      assert.equal(new URL(source.url).protocol, "https:");
   }
 });
 

@@ -254,14 +254,23 @@ export function AppShell() {
                           מקור בנחלת הכלל · עיבוד עברי מקורי · המקורות גלויים
                         </small>
                       </div>
-                      <button
-                        className="dark-button"
-                        onClick={() =>
-                          navigate(`quickread/${featuredQuickRead.id}`)
-                        }
-                      >
-                        לקריאה <ArrowLeft size={17} />
-                      </button>
+                      <div className="quick-read-actions">
+                        <button
+                          className="dark-button"
+                          onClick={() =>
+                            navigate(`quickread/${featuredQuickRead.id}`)
+                          }
+                        >
+                          לקריאה · {featuredQuickRead.estimatedMinutes} דקות{" "}
+                          <ArrowLeft size={17} />
+                        </button>
+                        <button
+                          className="text-button"
+                          onClick={() => navigate("audio")}
+                        >
+                          או לספריית האודיו
+                        </button>
+                      </div>
                     </section>
                   )}
                 <div className="feed-heading">

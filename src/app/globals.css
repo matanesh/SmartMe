@@ -318,6 +318,17 @@ h1 {
 .quick-read-promo .dark-button {
   min-width: 128px;
 }
+.quick-read-actions {
+  min-width: 190px;
+  display: grid;
+  gap: 6px;
+}
+.quick-read-actions .text-button {
+  min-height: 44px;
+  justify-content: center;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .quick-read {
   max-width: 780px;
 }
@@ -1199,9 +1210,73 @@ h1 {
   color: #7a806e;
   font-size: 12px;
 }
-.episode-related summary {
+.episode-related summary,
+.episode-transcript summary {
   cursor: pointer;
   min-height: 44px;
+}
+.episode-transcript {
+  margin-top: 14px;
+  border-top: 1px solid var(--line);
+  color: #60665b;
+  font-size: 13px;
+}
+.episode-transcript summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4f6441;
+  font-weight: 700;
+  padding: 12px 0;
+}
+.episode-trust {
+  padding: 2px 0 12px;
+  line-height: 1.75;
+}
+.episode-disclosure {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #eef2e8;
+}
+.episode-disclosure svg {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.episode-trust code {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.episode-transcript-copy {
+  max-height: 320px;
+  overflow-y: auto;
+  margin: 16px 0;
+  padding: 4px 14px;
+  border-inline-start: 3px solid #d6ddca;
+  color: #42473f;
+  font-size: 15px;
+  line-height: 1.9;
+}
+.episode-transcript-copy p {
+  margin: 0 0 14px;
+}
+.episode-trust h3 {
+  margin: 14px 0 7px;
+  font-size: 15px;
+}
+.episode-trust ul {
+  margin: 0;
+  padding-inline-start: 20px;
+}
+.episode-trust a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .related-link {
   display: block;
@@ -1666,6 +1741,10 @@ h1 {
   .quick-read-promo .dark-button {
     width: 100%;
   }
+  .quick-read-actions {
+    width: 100%;
+    min-width: 0;
+  }
   .quick-read-hero {
     border-radius: 18px;
   }
@@ -1770,7 +1849,7 @@ h1 {
     font-size: 19px;
   }
   .episode-info {
-    min-width: 170px;
+    min-width: min(170px, 100%);
   }
   .episode-footer {
     gap: 8px;
